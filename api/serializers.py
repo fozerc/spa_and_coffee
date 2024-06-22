@@ -1,6 +1,7 @@
 from django.db.models import Q
 from rest_framework import serializers
-from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, ServiceType, Procedure
+from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Procedure, Composition, Employee, \
+    ServiceRole, Salon, Review
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -42,14 +43,14 @@ class CoffeeProductSerializer(serializers.ModelSerializer):
         fields = ['name', 'description', 'price', 'image', 'category', 'id']
 
 
-class RoleSerializer(serializers.ModelSerializer):
+class ServiceRoleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ServiceType
-        fields = ['name', 'id', 'type_of_categories']
+        model = ServiceRole
+        fields = ['name', 'id', 'procedures']
 
 
 class SpaUserSerializer(serializers.ModelSerializer):
-    roles = RoleSerializer(many=True, read_only=True)
+    roles = ServiceRoleSerializer(many=True, read_only=True)
 
     class Meta:
         model = SpaUser
@@ -60,3 +61,33 @@ class ServiceCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Procedure
         fields = ['id', 'name', 'description', 'price', 'duration', 'composition', 'image']
+
+
+class CompositionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Composition
+        fields = ['name', 'description', 'id']
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = ['user', 'salon', 'role', 'id', 'rating', 'review_count']
+
+
+class ProcedureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Procedure
+        fields = ['id', 'name', 'description', 'price', 'duration', 'composition', 'image']
+
+
+class SalonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Salon
+        fields = ['id', 'name', 'address', 'phone_number']
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['id', 'user', 'therapist', 'rating', 'comment']
