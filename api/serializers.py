@@ -1,7 +1,8 @@
 from django.db.models import Q
 from rest_framework import serializers
 from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Procedure, Composition, Employee, \
-    ServiceRole, Salon, Review
+    ServiceRole, Salon, Review, Schedule, Record
+from spa_app.utils import SlotsValidator
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -91,3 +92,24 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['id', 'user', 'therapist', 'rating', 'comment']
+
+
+class ScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Schedule
+        fields = ['id', 'employee', 'start_time', 'end_time', 'day']
+
+
+class RecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Record
+        fields = ['id', 'schedule', 'start_time', 'procedure']
+
+    def validate(self, data):
+        if data['start_time'].strftime('%H:%M') not in SlotsValidator(data['schedule'], data['procedure']).ranges:
+            raise serializers.ValidationError("Sorry, but date is booked")
+        return data
+
+
+class FreeTimeCalculator(serializers.Serializer):
+    procedure = serializers.PrimaryKeyRelatedField(queryset=Procedure.objects.all())

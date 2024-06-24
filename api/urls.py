@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
 from api.resourses import RegisterCreateApiView, CoffeeProductModelViewSet, CoffeeCategoryModelViewSet, \
     EmployeeModelViewSet, RoleModelViewSet, ProcedureModelViewSet, CompositionModelViewSet, SalonModelViewSet, \
-    ReviewModelViewSet
+    ReviewModelViewSet, ScheduleModelViewSet, RecordModelViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -14,6 +14,8 @@ router.register(r'procedure', ProcedureModelViewSet, basename='procedure')
 router.register(r'composition', CompositionModelViewSet, basename='composition')
 router.register(r'salon', SalonModelViewSet, basename='salon')
 router.register(r'review', ReviewModelViewSet, basename='review')
+router.register(r'schedule', ScheduleModelViewSet, basename='schedule')
+router.register(r'record', RecordModelViewSet, basename='record')
 
 urlpatterns = [
     path('auth/', obtain_auth_token, name='auth_token'),

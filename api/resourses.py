@@ -1,3 +1,5 @@
+from datetime import timedelta, datetime
+
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView
@@ -6,9 +8,10 @@ from rest_framework.viewsets import ModelViewSet
 
 from api.serializers import RegisterSerializer, CoffeeProductSerializer, CoffeeCategorySerializer, SpaUserSerializer, \
     EmployeeSerializer, ServiceRoleSerializer, ProcedureSerializer, CompositionSerializer, SalonSerializer, \
-    ReviewSerializer
+    ReviewSerializer, ScheduleSerializer, FreeTimeCalculator, RecordSerializer
 from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Employee, ServiceRole, Procedure, Composition, Salon, \
-    Review
+    Review, Schedule, Record
+from spa_app.utils import SlotsValidator
 
 
 class RegisterCreateApiView(CreateAPIView):
@@ -78,4 +81,23 @@ class SalonModelViewSet(ModelViewSet):
 class ReviewModelViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = []
+
+
+class ScheduleModelViewSet(ModelViewSet):
+    queryset = Schedule.objects.all()
+    serializer_class = ScheduleSerializer
+
+    @action(detail=True, methods=['GET'])
+    def free(self, request, pk=None):
+        serializer = FreeTimeCalculator(data=request.query_params)
+        serializer.is_valid(raise_exception=True)
+        procedure = serializer.validated_data['procedure']
+        schedule = self.get_object()
+        return Response({'ranges': SlotsValidator(schedule, procedure).ranges})
+
+
+class RecordModelViewSet(ModelViewSet):
+    queryset = Record.objects.all()
+    serializer_class = RecordSerializer
     permission_classes = []
