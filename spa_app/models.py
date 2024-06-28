@@ -1,9 +1,7 @@
 from datetime import timedelta
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from rest_framework import serializers
 
 
 class SpaUser(AbstractUser):
@@ -120,3 +118,12 @@ class Review(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.therapist.update_rating()
+
+
+class GalleryCategory(models.Model):
+    name = models.CharField(max_length=100)
+
+
+class GalleryImage(models.Model):
+    image = models.ImageField(blank=True, null=True)
+    category = models.ForeignKey(GalleryCategory, on_delete=models.CASCADE)

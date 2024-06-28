@@ -1,7 +1,7 @@
 from django.db.models import Q
 from rest_framework import serializers
 from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Procedure, Composition, Employee, \
-    ServiceRole, Salon, Review, Schedule, Record
+    ServiceRole, Salon, Review, Schedule, Record, GalleryCategory, GalleryImage
 from spa_app.utils import SlotsValidator
 
 
@@ -113,3 +113,15 @@ class RecordSerializer(serializers.ModelSerializer):
 
 class FreeTimeCalculator(serializers.Serializer):
     procedure = serializers.PrimaryKeyRelatedField(queryset=Procedure.objects.all())
+
+
+class GalleryCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GalleryCategory
+        fields = ['id', 'name']
+
+
+class GalleryImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GalleryImage
+        fields = ['id', 'category', 'image']

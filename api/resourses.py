@@ -3,14 +3,17 @@ from datetime import timedelta, datetime
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from api.permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from api.serializers import RegisterSerializer, CoffeeProductSerializer, CoffeeCategorySerializer, SpaUserSerializer, \
     EmployeeSerializer, ServiceRoleSerializer, ProcedureSerializer, CompositionSerializer, SalonSerializer, \
-    ReviewSerializer, ScheduleSerializer, FreeTimeCalculator, RecordSerializer
+    ReviewSerializer, ScheduleSerializer, FreeTimeCalculator, RecordSerializer, GalleryCategorySerializer, \
+    GalleryImageSerializer
 from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Employee, ServiceRole, Procedure, Composition, Salon, \
-    Review, Schedule, Record
+    Review, Schedule, Record, GalleryCategory, GalleryImage
 from spa_app.utils import SlotsValidator
 
 
@@ -22,29 +25,19 @@ class RegisterCreateApiView(CreateAPIView):
 
 class SpaUserModelViewSet(ModelViewSet):
     queryset = SpaUser.objects.all()
-    permission_classes = []
+    permission_classes = [IsAdminOrReadOnly]
     serializer_class = SpaUserSerializer
-
-    # @action(methods=['post'], detail=True)
-    # def add_role(self, request, pk=None):
-    #     employee = SpaUser.objects.get(pk=pk)
-    #     serializer = SpaUserSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         employee.save()
-    #         return Response({'status': 'role added'})
-    #     else:
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class EmployeeModelViewSet(ModelViewSet):
     queryset = Employee.objects.all()
-    permission_classes = []
+    permission_classes = [IsAdminOrReadOnly]
     serializer_class = EmployeeSerializer
 
 
 class RoleModelViewSet(ModelViewSet):
     queryset = ServiceRole.objects.all()
-    permission_classes = []
+    permission_classes = [IsAdminOrReadOnly]
     serializer_class = ServiceRoleSerializer
 
 
@@ -56,37 +49,38 @@ class CoffeeProductModelViewSet(ModelViewSet):
 
 class CoffeeCategoryModelViewSet(ModelViewSet):
     serializer_class = CoffeeCategorySerializer
-    permission_classes = []
+    permission_classes = [IsAdminOrReadOnly]
     queryset = CoffeeCategory.objects.all()
 
 
 class ProcedureModelViewSet(ModelViewSet):
     queryset = Procedure.objects.all()
-    permission_classes = []
+    permission_classes = [IsAdminOrReadOnly]
     serializer_class = ProcedureSerializer
 
 
 class CompositionModelViewSet(ModelViewSet):
     queryset = Composition.objects.all()
     serializer_class = CompositionSerializer
-    permission_classes = []
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class SalonModelViewSet(ModelViewSet):
     queryset = Salon.objects.all()
     serializer_class = SalonSerializer
-    permission_classes = []
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class ReviewModelViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = []
+    permission_classes = [IsOwnerOrReadOnly]
 
 
 class ScheduleModelViewSet(ModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
     @action(detail=True, methods=['GET'])
     def free(self, request, pk=None):
@@ -100,4 +94,16 @@ class ScheduleModelViewSet(ModelViewSet):
 class RecordModelViewSet(ModelViewSet):
     queryset = Record.objects.all()
     serializer_class = RecordSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
+
+
+class GalleryCategoryModelViewSet(ModelViewSet):
+    queryset = GalleryCategory.objects.all()
+    serializer_class = GalleryCategorySerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+
+class GalleryImageModelViewSet(ModelViewSet):
+    queryset = GalleryImage.objects.all()
+    serializer_class = GalleryImageSerializer
+    permission_classes = [IsAdminOrReadOnly]
