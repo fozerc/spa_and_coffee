@@ -11,9 +11,9 @@ from api.permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from api.serializers import RegisterSerializer, CoffeeProductSerializer, CoffeeCategorySerializer, SpaUserSerializer, \
     EmployeeSerializer, ServiceRoleSerializer, ProcedureSerializer, CompositionSerializer, SalonSerializer, \
     ReviewSerializer, ScheduleSerializer, FreeTimeCalculator, RecordSerializer, GalleryCategorySerializer, \
-    GalleryImageSerializer
+    GalleryImageSerializer, ProcedureCategorySerializer
 from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Employee, ServiceRole, Procedure, Composition, Salon, \
-    Review, Schedule, Record, GalleryCategory, GalleryImage
+    Review, Schedule, Record, GalleryCategory, GalleryImage, ProcedureCategory
 from spa_app.utils import SlotsValidator
 
 
@@ -106,4 +106,10 @@ class GalleryCategoryModelViewSet(ModelViewSet):
 class GalleryImageModelViewSet(ModelViewSet):
     queryset = GalleryImage.objects.all()
     serializer_class = GalleryImageSerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+
+class ProcedureCategoryModelViewSet(ModelViewSet):
+    queryset = ProcedureCategory.objects.all()
+    serializer_class = ProcedureCategorySerializer
     permission_classes = [IsAdminOrReadOnly]

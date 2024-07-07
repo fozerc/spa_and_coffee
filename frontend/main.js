@@ -1,7 +1,15 @@
-import * as Components from "./components/index.js"
+import { Main } from "./components";
+import { Header } from "./components";
+import * as API from "./api";
+import * as State from "./state";
+import "./sass/index.scss"
 
-const { Header } = Components;
+document.addEventListener("DOMContentLoaded", async () => {
+    const app = document.querySelector("#app");
 
-document.querySelector("#app").innerHTML = `
-    ${Header()}
-`
+    const headerElement = Header();
+    app.appendChild(headerElement);
+
+    const mainElement = Main({ API, State });
+    app.appendChild(mainElement);
+});

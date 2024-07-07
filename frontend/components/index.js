@@ -1,3 +1,2 @@
-import { Header } from "./Header/index.js";
-
-export { Header }
+export * from "./Main";
+export * from "./Header"

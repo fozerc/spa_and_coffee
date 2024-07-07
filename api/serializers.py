@@ -1,7 +1,7 @@
 from django.db.models import Q
 from rest_framework import serializers
 from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Procedure, Composition, Employee, \
-    ServiceRole, Salon, Review, Schedule, Record, GalleryCategory, GalleryImage
+    ServiceRole, Salon, Review, Schedule, Record, GalleryCategory, GalleryImage, ProcedureCategory
 from spa_app.utils import SlotsValidator
 
 
@@ -79,7 +79,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class ProcedureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Procedure
-        fields = ['id', 'name', 'description', 'price', 'duration', 'composition', 'image']
+        fields = ['id', 'name', 'description', 'price', 'duration', 'composition', 'image', 'category']
 
 
 class SalonSerializer(serializers.ModelSerializer):
@@ -125,3 +125,9 @@ class GalleryImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = GalleryImage
         fields = ['id', 'category', 'image']
+
+
+class ProcedureCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProcedureCategory
+        fields = ['id', 'name', 'description', 'image']

@@ -1,0 +1,101 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.Header {
+  background-image: url("../../../assets/images/hero screen.svg");
+  background-size: cover;
+  background-repeat:no-repeat;
+
+
+  .logo_and_btn_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding-top: 7vh;
+    padding-bottom: 5vh;
+    box-sizing: border-box;
+
+    .login_button {
+      list-style: none;
+      padding-right: 10vh;
+      margin-left: auto;
+
+      li {
+        button {
+          font-size: 2vh;
+          background: #CED1C5;
+          width: 19vh;
+          height: 6vh;
+          border: 0;
+          box-shadow: 0 0 10px 0;
+          border-radius: 1vh;
+          cursor: pointer;
+          transition: 0.5s;
+        }
+
+        button:hover {
+          background: black;
+          color: #CED1C5;
+        }
+      }
+    }
+
+    .logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      list-style: none;
+
+      li:nth-child(1) {
+        margin-bottom: -3vh;
+
+        img {
+          width: 8vh;
+        }
+      }
+
+      li:nth-child(2) {
+        padding-bottom: 2vh;
+        font-size: 4vh;
+      }
+    }
+
+  }
+
+
+  .navigation {
+    border-top: 0.4vh black solid;
+    border-bottom: 0.4vh black solid;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+
+    .nav_links {
+      font-size: 1.9vh;
+      margin-left: 10vh;
+    }
+
+    .social_accounts {
+      align-items: center;
+      margin-left: 11vh;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+
+      li {
+        margin-left: 3vh;
+      }
+    }
+  }
+}
+
+.about_us{
+
+}

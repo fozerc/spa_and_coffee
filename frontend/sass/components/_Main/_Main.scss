@@ -1,0 +1,209 @@
+main {
+  background-color: #ADB59F;
+}
+
+.main_page_button_section {
+  margin-top: 28%;
+  padding-bottom: 10%;
+
+  .main_page_button_container {
+    display: flex;
+    list-style: none;
+    flex-direction: column;
+    margin-left: 11vw;
+
+    li:nth-child(2) {
+      margin-top: 14vh;
+      font-size: 10vh;
+      font-weight: 500;
+    }
+
+    li:nth-child(3) {
+      margin-top: 2vh;
+      font-size: 8vh;
+      font-weight: 500;
+    }
+
+    li:nth-child(1) {
+      button {
+        width: 24vh;
+        height: 7vh;
+        border-radius: 2vh;
+        background-color: #CED1C5;
+        font-size: 2.1vh;
+        font-weight: 100;
+        border: 0;
+        box-shadow: 0 0 1vh #1c1c1c;
+      }
+    }
+  }
+}
+
+.about_us_section {
+  .about_us_heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10vh;
+    font-size: 6vh;
+    font-weight: 300;
+  }
+
+  .about_us_container {
+    display: flex;
+    margin-left: 19vw;
+
+    ul {
+      position: relative;
+      text-align: left;
+      font-size: 2.5vh;
+      list-style: none;
+      width: 80%;
+      padding: 0;
+      margin: 0;
+      overflow-wrap: break-word;
+    }
+
+
+    li:nth-child(n+2)::before {
+      content: url("../../../assets/icons/check_mark.svg");
+      position: absolute;
+      left: -13vh;
+    }
+
+    li:nth-child(n+2) {
+      margin-top: 6vh;
+      position: relative;
+      overflow-wrap: break-word;
+    }
+
+    li:nth-child(1) {
+      margin-top: 4vh;
+      overflow-wrap: break-word;
+    }
+  }
+}
+
+
+.about_us_line {
+  height: 3px;
+  background-color: black;
+  width: 40%;
+  margin: 0 auto;
+  transform: translateX(-27%);
+}
+
+.about_us {
+  display: flex;
+  justify-content: space-between;
+}
+
+.about_us_images {
+  ul {
+    list-style: none;
+    margin-right: 20vh;
+    margin-top: 3vh;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(3, auto);
+
+    li:nth-child(1) {
+      grid-column: 3;
+    }
+
+    li:nth-child(2) {
+      grid-column: 2;
+    }
+
+    li:nth-child(3) {
+      grid-column: 1;
+    }
+  }
+}
+
+@media(max-width: 1357px) {
+  .about_us {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    .about_us_images {
+      ul {
+        display: flex;
+        list-style: none;
+        margin-right: 0;
+        margin-top: 5vh;
+
+        li {
+          margin-left: 6vw;
+        }
+      }
+    }
+  }
+}
+
+@media(max-width: 700px) {
+  .about_us {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    .about_us_images {
+      ul {
+        display: none;
+        list-style: none;
+        margin-right: 0;
+        margin-top: 5vh;
+
+        li {
+          margin-left: 6vw;
+        }
+      }
+    }
+  }
+}
+
+.philosophy_heading {
+  margin-top: 12vh;
+  display: flex;
+  justify-content: center;
+  font-size: 6vh;
+  font-weight: 300;
+}
+
+.philosophy_description {
+  display: flex;
+  width: 75vw;
+  margin: 0 auto;
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 6vh;
+    flex: 1;
+
+    li:nth-child(2) {
+      font-size: 3vh;
+    }
+
+    li:nth-child(3) {
+      padding-left: 4vh;
+    }
+
+    li {
+      margin-top: 2vh;
+      font-size: 2vh;
+
+      img {
+        width: 11vh;
+      }
+    }
+  }
+}
+
+.services_heading{
+
+}

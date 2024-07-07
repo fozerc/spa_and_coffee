@@ -2,7 +2,8 @@ from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
 from api.resourses import RegisterCreateApiView, CoffeeProductModelViewSet, CoffeeCategoryModelViewSet, \
     EmployeeModelViewSet, RoleModelViewSet, ProcedureModelViewSet, CompositionModelViewSet, SalonModelViewSet, \
-    ReviewModelViewSet, ScheduleModelViewSet, RecordModelViewSet, GalleryCategoryModelViewSet, GalleryImageModelViewSet
+    ReviewModelViewSet, ScheduleModelViewSet, RecordModelViewSet, GalleryCategoryModelViewSet, GalleryImageModelViewSet, \
+    ProcedureCategoryModelViewSet
 from rest_framework import routers
 
 from api.serializers import GalleryImageSerializer
@@ -20,6 +21,7 @@ router.register(r'schedule', ScheduleModelViewSet, basename='schedule')
 router.register(r'record', RecordModelViewSet, basename='record')
 router.register(r'gallery-category', GalleryCategoryModelViewSet, basename='gallery-category')
 router.register(r'gallery-image', GalleryImageModelViewSet, basename='gallery-image')
+router.register(r'procedure-category', ProcedureCategoryModelViewSet, basename='procedure-category')
 
 urlpatterns = [
     path('auth/', obtain_auth_token, name='auth_token'),
