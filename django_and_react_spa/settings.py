@@ -123,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-TOKEN_EXPIRE_SECONDS = 3600
+TOKEN_EXPIRE_SECONDS = 3600 * 168
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

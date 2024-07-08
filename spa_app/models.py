@@ -8,14 +8,14 @@ from django.db.models import ManyToManyField
 class SpaUser(AbstractUser):
     phone = models.CharField(max_length=15, blank=True, null=True)
     profile_image = models.ImageField(blank=True, null=True)
+    first_name = models.CharField(max_length=50, blank=True, null=True)
+    last_name = models.CharField(max_length=50, blank=True, null=True)
 
 
 class Salon(models.Model):
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     phone_number = models.IntegerField()
-
-    # categories = models.ForeignKey('SpaСategories', on_delete=models.CASCADE, related_name='categories')
 
     def __str__(self):
         return self.name
@@ -24,7 +24,8 @@ class Salon(models.Model):
 class ServiceRole(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000, blank=True, null=True)
-    procedures = models.ManyToManyField('Procedure', related_name='procedures')
+    procedures = models.ManyToManyField('Procedure', related_name='procedures', blank=True, null=True)
+    is_admin = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -32,10 +33,13 @@ class ServiceRole(models.Model):
 
 class Employee(models.Model):
     user = models.OneToOneField(SpaUser, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, blank=True, null=True)
     salon = models.ForeignKey(Salon, on_delete=models.CASCADE, related_name='therapists')
     role = models.ManyToManyField(ServiceRole, related_name='massage_therapists')
     rating = models.FloatField(default=5.0, blank=True, null=True)
     review_count = models.IntegerField(default=0)
+    photo = models.ImageField(upload_to='photos/', blank=True, null=True)
+
 
     def update_rating(self):
         self.review_count = self.reviews.count()
@@ -47,12 +51,13 @@ class Employee(models.Model):
             self.rating = 0
 
     def __str__(self):
-        return f"{self.user.username} {self.salon}"
+        return f"Name: {self.name}, Salon: {self.salon}"
 
 
 PROCEDURE_TYPE = (
     (timedelta(minutes=60), 'Regular'),
     (timedelta(minutes=90), 'Long'),
+    (timedelta(minutes=120), 'Very Long'),
 )
 
 
@@ -74,10 +79,12 @@ class Record(models.Model):
 
 class Composition(models.Model):
     name = models.CharField(max_length=50)
-    description = models.TextField(max_length=1000)
+    product_component = models.TextField(max_length=1000, blank=True, null=True)
+    firm = models.TextField(max_length=100, blank=True, null=True)
+    contraindications = models.TextField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.name} - {self.description}"
+        return f"{self.name} - {self.product_component}"
 
 
 class ProcedureCategory(models.Model):
@@ -94,7 +101,7 @@ class Procedure(models.Model):
     description = models.TextField(max_length=1000)
     price = models.DecimalField(max_digits=10, decimal_places=0)
     duration = models.DurationField(choices=PROCEDURE_TYPE)
-    composition = models.ForeignKey(Composition, on_delete=models.CASCADE, related_name='procedures')
+    composition = models.ForeignKey(Composition, on_delete=models.CASCADE, related_name='procedures', blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
     category = models.ForeignKey(ProcedureCategory, on_delete=models.CASCADE, related_name='procedures', blank=True, null=True)
 

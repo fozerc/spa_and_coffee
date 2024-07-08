@@ -15,3 +15,4 @@ export const paths = {
   register: "register/",
   auth: "auth/",
 };
+export const apiUrl = "'http://localhost:8000/api/'"

@@ -5,23 +5,26 @@ export const Main = ({API, State}) => {
     const {request} = API;
     const {initialState, updateState} = State;
 
+
     const getTypeOfProcedures = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/procedure-category/');
-            return response.data
+            await request({
+                type: "get",
+                path: "procedureCategory",
+                updateState
+            });
         } catch (error) {
-            console.error("Can't get an objects", error);
-            return [];
+            console.error("Error getting procedure categories:", error);
         }
     };
 
-    const renderProceduresCategory = (categories) => {
-        return categories.map(({name, description, image}, index) => `
+    const renderProceduresCategory = (categories = []) => {
+        return categories.map(({name, description, image}) => `
             <div class="procedures_type">
-                <ul class="category${index}">
+                <ul class="category">
+                    <li><img src="${image}" alt=""></li>
                     <li>${name}</li>
                     <li>${description}</li>
-                    <li><img src="${image}" alt=""></li>
                 </ul>
                 <ul class="category_buttons">
                     <li>Дізнатися більше</li>
@@ -44,9 +47,55 @@ export const Main = ({API, State}) => {
         `;
     };
 
+    const getEmployees = async () => {
+        try {
+            await request({
+                type: "get",
+                path: "employee",
+                updateState
+            });
+        } catch (error) {
+            console.error("Error in getting employees", error)
+        }
+    }
+
+    const renderEmployee = (employees) => {
+        return employees.map(({name, role, photo}, index) => `
+            <div class="employees_type${index}">
+                <ul class="employee_card">
+                    <li><img src="${photo}" alt=""></li>
+                    <li>${name}</li>
+                    <li>${role}</li>
+                </ul>
+            </div>   
+        `).join('')
+    }
+
+    const getReviews = async () => {
+        try {
+            await request({
+                type: "get",
+                path: "review",
+                updateState
+            })
+        } catch (error) {
+            console.error("Error can't get an reviews", error)
+        }
+    }
+
+    const employeesForForm = (employees) => {
+        return employees.map(({id, name}) => `
+            <option value="${id}">${name}</option>
+        `).join('');
+    }
+
     const mainPage = async () => {
-        const categories = await getTypeOfProcedures();
-        console.log(categories)
+        await getReviews()
+        await getTypeOfProcedures();
+        await getEmployees()
+        const categories = initialState.procedureCategory.data;
+        const employees = initialState.employee.data
+        const reviews = initialState.review.data
         return `
             <section class="about_us_section">
                 <h1 class="about_us_heading">Про нас</h1>
@@ -100,11 +149,56 @@ export const Main = ({API, State}) => {
                         </div>
                     </div>
                 </section>
+                <section class="employees_section">
+                    <div class="employees_container">
+                        <h4 class="category_heading">Спеціалісти</h4>
+                        <div class="about_us_line"></div>
+                        <div class="employees">
+                            ${renderEmployee(employees)}
+                        </div>
+                    </div>
+                </section>
+                <section class="why_us_section">
+                    <h5 class="category_heading">Чому саме ми?</h5>
+                    <div class="about_us_line"></div>
+                    <div class="why_us_container">
+                        <ul>
+                            <li>Якість</li>
+                            <li>Наш спа-салон забезпечує найвищу якість послуг завдяки кваліфікованим спеціалістам, індивідуальному підходу та використанню новітніх технологій і органічних продуктів.</li>
+                        </ul><ul>
+                            <li>Ефективність</li>
+                            <li>Ефективність наших спа-процедур полягає в поєднанні передових методик, індивідуально підібраних програм і ретельно відібраних продуктів, що гарантують тривалі та помітні результати.</li>
+                        </ul><ul>
+                            <li>Безпека</li>
+                            <li>Безпека нашого спа-салону забезпечується дотриманням найвищих стандартів гігієни, використанням екологічно чистих продуктів і суворим контролем якості процедур</li>
+                        </ul>
+                    </div>
+                </section>
+                <section class="reviews_section">
+                    <h6 class="category_heading">Відгуки</h6>
+                    <div class="about_us_line"></div>
+                    <div class="reviews_container">
+                        ${reviewForm(employees)}
+                    </div>
+                </section>
             </section>
         `;
     };
 
     const mainElement = document.createElement('main');
+
+    const reviewForm = (employees) => {
+        return `
+            <form id="reviewForm">
+                    <select name="employee" id="employeeSelect">
+                        ${employeesForForm(employees)}                  
+                    </select>    
+                <input type="text" name="review" id="review" placeholder="Відгук">
+                <input type="number" id="rating" min="1" max="5" step="1" placeholder="Rating (1-5)" required>
+                <input type="submit" id="review_submit" name="review_submit" value="Відправити">
+            </form>
+        `
+    }
 
     const renderPage = async () => {
         const [registerHtml, anotherHtml] = await Promise.all([RegisterForm(), mainPage()]);
@@ -112,13 +206,41 @@ export const Main = ({API, State}) => {
             ${anotherHtml}
             ${registerHtml}
         `;
-        attachFormSubmitHandler();
+        attachReviewFormSubmitHandler();
+        attachRegisterFormSubmitHandler();
     };
 
-    const attachFormSubmitHandler = () => {
+    const attachReviewFormSubmitHandler = () => {
+        document.querySelector("#reviewForm").addEventListener('submit', async (event) => {
+            event.preventDefault()
+            const comment = document.querySelector("#review").value;
+            const rating = document.querySelector("#rating").value;
+            const therapist = document.querySelector("#employeeSelect").value;
+
+            if (!Number.isInteger(Number(rating)) || rating < 1 || rating >5){
+                alert("Please enter a valid rating between 1 and 5.")
+            }
+
+            const data = {
+                comment,
+                rating,
+                therapist
+            };
+
+            await request({
+                type: "post",
+                path: "review",
+                data,
+                updateState,
+            });
+
+            console.log(initialState)
+        })
+    }
+
+    const attachRegisterFormSubmitHandler = () => {
         document.querySelector("#RegisterForm").addEventListener("submit", async (event) => {
             event.preventDefault();
-
             const username = document.querySelector("#username").value;
             const password = document.querySelector("#password").value;
             const email = document.querySelector("#email").value;

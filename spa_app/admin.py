@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import SpaUser, Salon, ServiceRole, Record, Employee, Procedure, Composition, CoffeeProduct, \
-    CoffeeCategory, Schedule, ProcedureCategory
+    CoffeeCategory, Schedule, ProcedureCategory, Review
 
 admin.site.register(SpaUser)
 admin.site.register(Salon)
@@ -14,3 +14,4 @@ admin.site.register(CoffeeProduct)
 admin.site.register(CoffeeCategory)
 admin.site.register(Schedule)
 admin.site.register(ProcedureCategory)
+admin.site.register(Review)

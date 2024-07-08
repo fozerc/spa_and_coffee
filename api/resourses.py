@@ -1,17 +1,19 @@
 from datetime import timedelta, datetime
 
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from api.pagination import ReviewsPageNumberPagination
 from api.permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from api.serializers import RegisterSerializer, CoffeeProductSerializer, CoffeeCategorySerializer, SpaUserSerializer, \
     EmployeeSerializer, ServiceRoleSerializer, ProcedureSerializer, CompositionSerializer, SalonSerializer, \
     ReviewSerializer, ScheduleSerializer, FreeTimeCalculator, RecordSerializer, GalleryCategorySerializer, \
-    GalleryImageSerializer, ProcedureCategorySerializer
+    GalleryImageSerializer, ProcedureCategorySerializer, EmployeeReadSerializer
 from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Employee, ServiceRole, Procedure, Composition, Salon, \
     Review, Schedule, Record, GalleryCategory, GalleryImage, ProcedureCategory
 from spa_app.utils import SlotsValidator
@@ -21,6 +23,12 @@ class RegisterCreateApiView(CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = []
     queryset = SpaUser.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        user = SpaUser.objects.get(username=response.data['username'])
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key}, status=status.HTTP_201_CREATED)
 
 
 class SpaUserModelViewSet(ModelViewSet):
@@ -33,6 +41,11 @@ class EmployeeModelViewSet(ModelViewSet):
     queryset = Employee.objects.all()
     permission_classes = [IsAdminOrReadOnly]
     serializer_class = EmployeeSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            return EmployeeReadSerializer
+        return EmployeeSerializer
 
 
 class RoleModelViewSet(ModelViewSet):
@@ -75,6 +88,10 @@ class ReviewModelViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [IsOwnerOrReadOnly]
+    pagination_class = ReviewsPageNumberPagination
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class ScheduleModelViewSet(ModelViewSet):

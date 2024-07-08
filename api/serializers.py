@@ -47,7 +47,7 @@ class CoffeeProductSerializer(serializers.ModelSerializer):
 class ServiceRoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceRole
-        fields = ['name', 'id', 'procedures']
+        fields = ['name', 'id', 'procedures', 'is_admin']
 
 
 class SpaUserSerializer(serializers.ModelSerializer):
@@ -67,13 +67,43 @@ class ServiceCategorySerializer(serializers.ModelSerializer):
 class CompositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Composition
-        fields = ['name', 'description', 'id']
+        fields = ['name', 'product_component', 'id', 'firm', 'contraindications']
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=SpaUser.objects.all())
+    salon = serializers.PrimaryKeyRelatedField(queryset=Salon.objects.all())
+    role = serializers.PrimaryKeyRelatedField(queryset=ServiceRole.objects.all(), many=True)
+
     class Meta:
         model = Employee
-        fields = ['user', 'salon', 'role', 'id', 'rating', 'review_count']
+        fields = ['user', 'salon', 'role', 'id', 'rating', 'review_count', 'name', 'photo']
+
+    def create(self, validated_data):
+        role = validated_data.pop('role')
+        employee = Employee.objects.create(**validated_data)
+        employee.role.set(role)
+        self.set_admin_permissions(employee)
+        return employee
+
+    def update(self, instance, validated_data):
+        roles = validated_data.pop('role')
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.role.set(roles)
+        instance.save()
+        self.set_admin_permissions(instance)
+        return instance
+
+    def set_admin_permissions(self, employee):
+        user = employee.user
+        if employee.role.filter(is_admin=True).exists():
+            user.is_superuser = True
+            user.is_staff = True
+        else:
+            user.is_superuser = False
+            user.is_staff = False
+        user.save()
 
 
 class ProcedureSerializer(serializers.ModelSerializer):
@@ -92,12 +122,26 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['id', 'user', 'therapist', 'rating', 'comment']
+        extra_kwargs = {'rating': {'required': True}}
+        read_only_fields = ('user',)
+
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
         fields = ['id', 'employee', 'start_time', 'end_time', 'day']
+
+
+class EmployeeReadSerializer(serializers.ModelSerializer):
+    role = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        model = Employee
+        fields = ['id', 'name', 'role', 'photo']
 
 
 class RecordSerializer(serializers.ModelSerializer):
