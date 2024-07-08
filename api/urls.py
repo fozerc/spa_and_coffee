@@ -3,7 +3,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from api.resourses import RegisterCreateApiView, CoffeeProductModelViewSet, CoffeeCategoryModelViewSet, \
     EmployeeModelViewSet, RoleModelViewSet, ProcedureModelViewSet, CompositionModelViewSet, SalonModelViewSet, \
     ReviewModelViewSet, ScheduleModelViewSet, RecordModelViewSet, GalleryCategoryModelViewSet, GalleryImageModelViewSet, \
-    ProcedureCategoryModelViewSet
+    ProcedureCategoryModelViewSet, LogoutApiView
 from rest_framework import routers
 
 from api.serializers import GalleryImageSerializer
@@ -26,5 +26,6 @@ router.register(r'procedure-category', ProcedureCategoryModelViewSet, basename='
 urlpatterns = [
     path('auth/', obtain_auth_token, name='auth_token'),
     path('register/', RegisterCreateApiView.as_view(), name='register'),
+    path('logout/', LogoutApiView.as_view(), name='logout'),
     path('', include(router.urls)),
 ]

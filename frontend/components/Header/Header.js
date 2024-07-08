@@ -1,5 +1,6 @@
 export const Header = () => {
     const headerElement = document.createElement('header');
+
     headerElement.innerHTML = `
         <div class="Header">
         <section class="logo_and_btn_container" >        

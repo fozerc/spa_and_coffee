@@ -130,6 +130,15 @@ class ReviewSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 
+class ReviewReadSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(source='user.profile_image')
+    user = serializers.CharField(source='user.username')
+
+    class Meta:
+        model = Review
+        fields = ['id', 'user', 'therapist', 'rating', 'comment', 'image']
+
+
 class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule

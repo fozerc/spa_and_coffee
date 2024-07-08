@@ -6,6 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from api.pagination import ReviewsPageNumberPagination
@@ -13,7 +14,7 @@ from api.permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from api.serializers import RegisterSerializer, CoffeeProductSerializer, CoffeeCategorySerializer, SpaUserSerializer, \
     EmployeeSerializer, ServiceRoleSerializer, ProcedureSerializer, CompositionSerializer, SalonSerializer, \
     ReviewSerializer, ScheduleSerializer, FreeTimeCalculator, RecordSerializer, GalleryCategorySerializer, \
-    GalleryImageSerializer, ProcedureCategorySerializer, EmployeeReadSerializer
+    GalleryImageSerializer, ProcedureCategorySerializer, EmployeeReadSerializer, ReviewReadSerializer
 from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Employee, ServiceRole, Procedure, Composition, Salon, \
     Review, Schedule, Record, GalleryCategory, GalleryImage, ProcedureCategory
 from spa_app.utils import SlotsValidator
@@ -84,11 +85,28 @@ class SalonModelViewSet(ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
 
 
+class LogoutApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            token = Token.objects.get(user=request.user)
+            token.delete()
+            return Response({"detail: Successfully logged out."}, status=status.HTTP_200_OK)
+        except Token.DoesNotExist:
+            return Response({"detail": "Invalid token."}, status=status.HTTP_401_UNAUTHORIZED)
+
+
 class ReviewModelViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [IsOwnerOrReadOnly]
     pagination_class = ReviewsPageNumberPagination
+
+    def get_serializer_class(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            return ReviewReadSerializer
+        return ReviewSerializer
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

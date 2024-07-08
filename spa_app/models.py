@@ -1,13 +1,11 @@
 from datetime import timedelta
-from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models import ManyToManyField
 
 
 class SpaUser(AbstractUser):
     phone = models.CharField(max_length=15, blank=True, null=True)
-    profile_image = models.ImageField(blank=True, null=True)
+    profile_image = models.ImageField(default='../media/default_profile_image/default-avatar.jpg',)
     first_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50, blank=True, null=True)
 

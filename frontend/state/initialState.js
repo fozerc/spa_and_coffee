@@ -59,4 +59,8 @@ export const initialState = {
     data: null,
     error: null,
   },
+  logout: {
+    data: null,
+    error: null,
+  }
 };

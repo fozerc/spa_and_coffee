@@ -12,6 +12,7 @@ export const paths = {
   galleryCategory: "gallery-category/",
   galleryImage: "gallery-image/",
   procedureCategory: "procedure-category/",
+  logout: "logout/",
   register: "register/",
   auth: "auth/",
 };

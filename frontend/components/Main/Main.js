@@ -83,6 +83,36 @@ export const Main = ({API, State}) => {
         }
     }
 
+    const renderReviews = (reviews) => {
+        return reviews.map(({user, therapist, comment, rating, image}) => `
+            <div class="review_card">
+                <ul class="review_name_and_photo">
+                    <li>${user}</li>
+                    <li><img src="${image}" alt=""></li>
+                </ul>
+                <ul>
+                    <li>${therapist}</li>
+                    <li>${comment}</li>
+                    <li>${rating}</li>
+                </ul>
+            </div>   
+        `)
+    }
+
+    const logout = async () => {
+        const token = localStorage.getItem('authtoken')
+        if (token) {
+            try {
+                request({
+                    type: "post",
+                    path: "logout",
+                })
+            }catch (error){
+                console.error(error)
+            }
+        }
+    }
+
     const employeesForForm = (employees) => {
         return employees.map(({id, name}) => `
             <option value="${id}">${name}</option>
@@ -178,6 +208,9 @@ export const Main = ({API, State}) => {
                     <h6 class="category_heading">Відгуки</h6>
                     <div class="about_us_line"></div>
                     <div class="reviews_container">
+                        ${renderReviews(reviews)}
+                    </div>
+                    <div class="review_form_and_logo_container">
                         ${reviewForm(employees)}
                     </div>
                 </section>
