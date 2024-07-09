@@ -26,7 +26,7 @@ export const request = async ({type, path, data = null, updateState}) => {
 
         console.log(response);
 
-        if (path === "register" && response.data.token) {
+        if (path === "register" && response.data.token || path === "auth" && response.data.token){
             saveTokenToLocalStorage(response.data.token);
         }
 

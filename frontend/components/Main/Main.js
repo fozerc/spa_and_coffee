@@ -44,7 +44,7 @@ export const Main = ({API, State}) => {
                 <input id="email" type="email" autocomplete="email" name="email" placeholder="Email" />
                 <input type="submit" value="Register"/>
             </form>
-        `;
+`;
     };
 
     const getEmployees = async () => {
@@ -218,7 +218,6 @@ export const Main = ({API, State}) => {
         `;
     };
 
-    const mainElement = document.createElement('main');
 
     const reviewForm = (employees) => {
         return `
@@ -232,6 +231,8 @@ export const Main = ({API, State}) => {
             </form>
         `
     }
+
+    const mainElement = document.createElement('main');
 
     const renderPage = async () => {
         const [registerHtml, anotherHtml] = await Promise.all([RegisterForm(), mainPage()]);

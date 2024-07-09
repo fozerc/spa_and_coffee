@@ -1,7 +1,10 @@
-export const Header = () => {
+export const Header = ({API, State}) => {
+    const {request} = API;
+    const {initialState, updateState} = State;
     const headerElement = document.createElement('header');
 
-    headerElement.innerHTML = `
+    const headerPage = () => {
+        return `
         <div class="Header">
         <section class="logo_and_btn_container" >        
             <ul class="logo">
@@ -10,7 +13,7 @@ export const Header = () => {
             </ul>
             <ul class="login_button">
                 <li>
-                    <button>Вхід</button>
+                    <button id="LogInButton">Вхід</button>
                 </li>
             </ul>
         </section>
@@ -37,5 +40,67 @@ export const Header = () => {
             </section>
         </div>
     `;
-    return headerElement;
+    }
+
+    const renderHeader =  async () => {
+        const [headerHtml] = await Promise.all([headerPage()]);
+        headerElement.innerHTML = `
+            ${headerHtml}
+        `;
+        attachLogInButtonOnClickHandler()
+    }
+
+    const logInForm = () => {
+        const formContainer = document.createElement('div');
+        formContainer.className = 'logInFormContainer';
+        formContainer.innerHTML = `
+            <div class="login_form_background">            
+                <form id="logInForm">
+                    <input id="username" type="text" autocomplete="username" name="username" placeholder="Username" />
+                    <input id="password" type="password" autocomplete="current-password" name="password" placeholder="Password" />
+                    <input type="submit" value="Log In"/>
+                </form>
+            </div>
+        `
+        return formContainer
+    }
+
+    const attachLogInButtonOnClickHandler = () => {
+        document.querySelector('#LogInButton').addEventListener('click', async (event) => {
+            const bodyElement = document.body
+            bodyElement.innerHTML = ''
+            bodyElement.appendChild(logInForm())
+            attachLogInOnSubmitHandler()
+        })
+    }
+
+    const attachLogInOnSubmitHandler = () => {
+        document.querySelector('#logInForm').addEventListener('submit', async (event) =>{
+            event.preventDefault()
+            const username = document.querySelector('#username').value
+            const password = document.querySelector('#password').value
+
+            const data = {
+                username,
+                password,
+            }
+
+            try {
+                await request({
+                    type: "post",
+                    path: "auth",
+                    data,
+                    updateState
+                })
+            }catch (error){
+                alert('Wrong username or password, please try again.')
+            }
+            console.log(initialState)
+        })
+    }
+
+
+    renderHeader()
+
+    return headerElement
 };
