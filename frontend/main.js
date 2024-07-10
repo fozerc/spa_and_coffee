@@ -1,8 +1,9 @@
 import { Main } from "./components";
 import { Header } from "./components";
+import { Footer } from "./components";
 import * as API from "./api";
 import * as State from "./state";
-import "./sass/index.scss"
+import "./sass/index.scss";
 
 document.addEventListener("DOMContentLoaded", async () => {
     const app = document.querySelector("#app");
@@ -12,4 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const mainElement = Main({ API, State });
     app.appendChild(mainElement);
+
+    const footerElement = Footer({API, State});
+    app.appendChild(footerElement)
 });

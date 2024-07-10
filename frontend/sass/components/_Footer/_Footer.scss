@@ -1,0 +1,94 @@
+body{
+  background-color: #959A8A;
+}
+
+.footer_section {
+  background-color: #959A8A;
+
+  .heading {
+    padding-top: 12vh;
+    display: flex;
+    justify-content: center;
+    font-size: 6vh;
+    font-weight: 300;
+  }
+
+  .line {
+    height: 0.3vh;
+    background-color: black;
+    width: 50%;
+    margin: 0 auto;
+    transform: translateX(-19%);
+  }
+
+  .contacts_container {
+    ul {
+      margin-left: 15.5%;
+      list-style: none;
+    }
+  }
+}
+
+.Footer {
+  .logo_and_btn_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding-top: 7vh;
+    padding-bottom: 5vh;
+    box-sizing: border-box;
+
+  }
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  list-style: none;
+
+  li:nth-child(1) {
+    margin-bottom: -3vh;
+
+    img {
+      width: 8vh;
+    }
+  }
+
+  li:nth-child(2) {
+    padding-bottom: 2vh;
+    font-size: 4vh;
+  }
+}
+
+
+.navigation {
+  margin-top: 2vh;
+  border-top: 0.4vh black solid;
+  border-bottom: 0.4vh black solid;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+
+  .nav_links {
+    font-size: 1.9vh;
+    margin-left: 10vh;
+  }
+
+  .social_accounts {
+    align-items: center;
+    margin-left: 11vh;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+      margin-left: 3vh;
+    }
+  }
+}

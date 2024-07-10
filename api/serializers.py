@@ -8,10 +8,11 @@ from spa_app.utils import SlotsValidator
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     email = serializers.EmailField(required=True)
+    phone = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = SpaUser
-        fields = ['username', 'email', 'password', 'id']
+        fields = ['username', 'phone', 'email', 'password', 'id']
 
     def validate(self, attrs):
         username = attrs.get('username')
@@ -133,6 +134,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 class ReviewReadSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(source='user.profile_image')
     user = serializers.CharField(source='user.username')
+    therapist = serializers.CharField(source='therapist.name')
 
     class Meta:
         model = Review

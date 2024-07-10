@@ -36,17 +36,6 @@ export const Main = ({API, State}) => {
         `).join('');
     };
 
-    const RegisterForm = () => {
-        return `
-            <form id="RegisterForm">
-                <input id="username" type="text" autocomplete="username" name="username" placeholder="Username" />
-                <input id="password" type="password" autocomplete="current-password" name="password" placeholder="Password" />
-                <input id="email" type="email" autocomplete="email" name="email" placeholder="Email" />
-                <input type="submit" value="Register"/>
-            </form>
-`;
-    };
-
     const getEmployees = async () => {
         try {
             await request({
@@ -87,16 +76,16 @@ export const Main = ({API, State}) => {
         return reviews.map(({user, therapist, comment, rating, image}) => `
             <div class="review_card">
                 <ul class="review_name_and_photo">
-                    <li>${user}</li>
                     <li><img src="${image}" alt=""></li>
+                    <li>${user}</li>
                 </ul>
-                <ul>
-                    <li>${therapist}</li>
-                    <li>${comment}</li>
-                    <li>${rating}</li>
+                <ul class="review_comment">
+                    <li>Терапевт: ${therapist}</li>
+                    <li>Відгук: ${comment}</li>
+                    <li>Рейтинг: ${rating}</li>
                 </ul>
             </div>   
-        `)
+        `).join(' ')
     }
 
     const logout = async () => {
@@ -211,7 +200,16 @@ export const Main = ({API, State}) => {
                         ${renderReviews(reviews)}
                     </div>
                     <div class="review_form_and_logo_container">
-                        ${reviewForm(employees)}
+                        <div class="review_form_container">
+                        <h6 class="review_heading">Ви можете залишити свій відгук на нашому сайті</h6>
+                            ${reviewForm(employees)}                        
+                        </div>
+                        <div class="review_logo_container">
+                            <ul>
+                                <li><img src="../../assets/icons/half_logo.svg" alt=""></li>
+                                <li><img src="../../assets/icons/TC&Spa.svg" alt=""></li>
+                            </ul>
+                        </div>
                     </div>
                 </section>
             </section>
@@ -222,12 +220,12 @@ export const Main = ({API, State}) => {
     const reviewForm = (employees) => {
         return `
             <form id="reviewForm">
-                    <select name="employee" id="employeeSelect">
+                    <select name="employee" id="employeeSelect" class="employee_select">
                         ${employeesForForm(employees)}                  
                     </select>    
-                <input type="text" name="review" id="review" placeholder="Відгук">
+                <input type="text" name="review" id="review" placeholder="Відгук" class="text_review_inp">
                 <input type="number" id="rating" min="1" max="5" step="1" placeholder="Rating (1-5)" required>
-                <input type="submit" id="review_submit" name="review_submit" value="Відправити">
+                <input type="submit" id="review_submit" name="review_submit" value="Відправити" class="send_btn">
             </form>
         `
     }
@@ -235,13 +233,11 @@ export const Main = ({API, State}) => {
     const mainElement = document.createElement('main');
 
     const renderPage = async () => {
-        const [registerHtml, anotherHtml] = await Promise.all([RegisterForm(), mainPage()]);
+        const [anotherHtml] = await Promise.all([mainPage()]);
         mainElement.innerHTML = `
             ${anotherHtml}
-            ${registerHtml}
         `;
         attachReviewFormSubmitHandler();
-        attachRegisterFormSubmitHandler();
     };
 
     const attachReviewFormSubmitHandler = () => {
@@ -271,30 +267,6 @@ export const Main = ({API, State}) => {
             console.log(initialState)
         })
     }
-
-    const attachRegisterFormSubmitHandler = () => {
-        document.querySelector("#RegisterForm").addEventListener("submit", async (event) => {
-            event.preventDefault();
-            const username = document.querySelector("#username").value;
-            const password = document.querySelector("#password").value;
-            const email = document.querySelector("#email").value;
-
-            const data = {
-                username,
-                password,
-                email,
-            };
-
-            await request({
-                type: "post",
-                path: "register",
-                data,
-                updateState,
-            });
-
-            console.log(initialState);
-        });
-    };
 
     renderPage();
 

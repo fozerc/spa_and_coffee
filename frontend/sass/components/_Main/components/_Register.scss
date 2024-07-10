@@ -1,4 +1,4 @@
-.logInFormContainer {
+.register_container {
   background-image: url("../../../../assets/images/hero screen.svg");
   height: 100vh;
   width: 100vw;
@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
 
-  .login_form_background {
+  .register_form_background {
     height: 60vh;
     display: flex;
     flex-direction: column;
@@ -41,7 +41,39 @@
       }
     }
 
+    .email_inp {
+      margin-top: 4vh;
+      width: 50vh;
+      height: 5vh;
+      border-left: none;
+      border-top: none;
+      border-right: none;
+      border-bottom: 0.3vh solid #5a5a5a;
+      background-color: #cac4d3;
+
+      &::placeholder {
+        opacity: 1;
+        padding-left: 2vh;
+      }
+    }
+
     .password_inp {
+      margin-top: 4vh;
+      width: 50vh;
+      height: 5vh;
+      border-left: none;
+      border-top: none;
+      border-right: none;
+      border-bottom: 0.3vh solid #5a5a5a;
+      background-color: #cac4d3;
+
+      &::placeholder {
+        opacity: 1;
+        padding-left: 2vh;
+      }
+    }
+
+    .number_inp {
       margin-top: 4vh;
       width: 50vh;
       height: 5vh;
@@ -59,7 +91,7 @@
 
     .submit_btn {
       margin-left: 19vh;
-      margin-top: 10vh;
+      margin-top: 6vh;
       width: 14vh;
       height: 4vh;
       background-color: #c5c5c5;
@@ -69,8 +101,8 @@
   }
 }
 
-.login_heading {
-  padding-bottom: 8vh;
+.register_heading {
+  padding-bottom: 4vh;
 }
 
 

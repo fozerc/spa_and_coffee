@@ -6,7 +6,7 @@
 .Header {
   background-image: url("../../../assets/images/hero screen.svg");
   background-size: cover;
-  background-repeat:no-repeat;
+  background-repeat: no-repeat;
 
 
   .logo_and_btn_container {
@@ -20,6 +20,31 @@
     box-sizing: border-box;
 
     .login_button {
+      list-style: none;
+      padding-right: 10vh;
+      margin-left: auto;
+
+      li {
+        button {
+          font-size: 2vh;
+          background: #CED1C5;
+          width: 19vh;
+          height: 6vh;
+          border: 0;
+          box-shadow: 0 0 10px 0;
+          border-radius: 1vh;
+          cursor: pointer;
+          transition: 0.5s;
+        }
+
+        button:hover {
+          background: black;
+          color: #CED1C5;
+        }
+      }
+    }
+
+    .log_out_button {
       list-style: none;
       padding-right: 10vh;
       margin-left: auto;
@@ -94,8 +119,4 @@
       }
     }
   }
-}
-
-.about_us{
-
 }
