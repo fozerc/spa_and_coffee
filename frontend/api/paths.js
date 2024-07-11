@@ -15,5 +15,6 @@ export const paths = {
   logout: "logout/",
   register: "register/",
   auth: "auth/",
+  massages: "procedures/massages/",
 };
 export const apiUrl = "'http://localhost:8000/api/'"

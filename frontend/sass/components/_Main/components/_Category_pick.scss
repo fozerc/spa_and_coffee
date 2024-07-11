@@ -1,0 +1,26 @@
+.procedures_type_section{
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  .procedures_type_container{
+    background-color: #FFFFFF;
+    flex-direction: column;
+    display: flex;
+    margin-top: 10vh;
+    height: 40vh;
+    width: 50vh;
+    align-items: center;
+    border-radius: 2vh;
+    .choose_procedure{
+      margin-top: 4vh;
+    }
+    .procedure_type_button{
+      background-color: #ADB59F;
+      border-radius: 1vh;
+      border: 0.3vh solid black;
+      margin-top: 4vh;
+      width: 20vh;
+      height: 4vh;
+    }
+  }
+}

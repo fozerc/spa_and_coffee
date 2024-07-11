@@ -5,7 +5,7 @@ from django.db import models
 
 class SpaUser(AbstractUser):
     phone = models.CharField(max_length=15, blank=True, null=True)
-    profile_image = models.ImageField(default='../media/default_profile_image/default-avatar.jpg',)
+    profile_image = models.ImageField(default='../media/default_profile_image/default-avatar.jpg', )
     first_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50, blank=True, null=True)
 
@@ -22,7 +22,8 @@ class Salon(models.Model):
 class ServiceRole(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000, blank=True, null=True)
-    procedures = models.ManyToManyField('Procedure', related_name='procedures', blank=True, null=True)
+    procedures = models.ManyToManyField('Procedure', related_name='roles')
+    employees = models.ManyToManyField('Employee', related_name='employee_roles')
     is_admin = models.BooleanField(default=False)
 
     def __str__(self):
@@ -33,11 +34,10 @@ class Employee(models.Model):
     user = models.OneToOneField(SpaUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, blank=True, null=True)
     salon = models.ForeignKey(Salon, on_delete=models.CASCADE, related_name='therapists')
-    role = models.ManyToManyField(ServiceRole, related_name='massage_therapists')
+    role = models.ManyToManyField(ServiceRole, related_name='roles')
     rating = models.FloatField(default=5.0, blank=True, null=True)
     review_count = models.IntegerField(default=0)
     photo = models.ImageField(upload_to='photos/', blank=True, null=True)
-
 
     def update_rating(self):
         self.review_count = self.reviews.count()
@@ -47,6 +47,26 @@ class Employee(models.Model):
             self.save()
         else:
             self.rating = 0
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        for role in self.role.all():
+            if not role.employees.filter(pk=self.pk).exists():
+                role.employees.add(self)
+        for role in ServiceRole.objects.all():
+            if role not in self.role.all() and role.employees.filter(pk=self.pk).exists():
+                role.employees.remove(self)
+
+    def __str__(self):
+        return f"Name: {self.name}, Salon: {self.salon}"
+
+
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        for role in self.role.all():
+            role.employees.add(self)
+            role.save()
 
     def __str__(self):
         return f"Name: {self.name}, Salon: {self.salon}"
@@ -72,7 +92,7 @@ class Schedule(models.Model):
 class Record(models.Model):
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='records')
     procedure = models.ForeignKey('Procedure', on_delete=models.CASCADE)
-    start_time = models.TimeField(null=True, blank=True)
+    start_time = models.TimeField()
 
 
 class Composition(models.Model):
@@ -89,6 +109,7 @@ class ProcedureCategory(models.Model):
     name = models.CharField(max_length=50)
     image = models.ImageField()
     description = models.TextField(max_length=1000)
+    roles = models.ManyToManyField(ServiceRole, related_name='categories')
 
     def __str__(self):
         return self.name
@@ -99,9 +120,11 @@ class Procedure(models.Model):
     description = models.TextField(max_length=1000)
     price = models.DecimalField(max_digits=10, decimal_places=0)
     duration = models.DurationField(choices=PROCEDURE_TYPE)
-    composition = models.ForeignKey(Composition, on_delete=models.CASCADE, related_name='procedures', blank=True, null=True)
+    composition = models.ForeignKey(Composition, on_delete=models.CASCADE, related_name='procedures', blank=True,
+                                    null=True)
     image = models.ImageField(blank=True, null=True)
-    category = models.ForeignKey(ProcedureCategory, on_delete=models.CASCADE, related_name='procedures', blank=True, null=True)
+    category = models.ForeignKey(ProcedureCategory, on_delete=models.CASCADE, related_name='procedures', blank=True,
+                                 null=True)
 
     def __str__(self):
         return f"name: {self.name} - duration: {self.duration} - price: {self.price}"

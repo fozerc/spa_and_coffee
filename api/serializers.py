@@ -1,7 +1,7 @@
 from django.db.models import Q
 from rest_framework import serializers
-from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Procedure, Composition, Employee, \
-    ServiceRole, Salon, Review, Schedule, Record, GalleryCategory, GalleryImage, ProcedureCategory
+from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Procedure, Composition, Employee, ServiceRole, Salon, \
+    Review, Schedule, Record, GalleryCategory, GalleryImage, ProcedureCategory
 from spa_app.utils import SlotsValidator
 
 
@@ -43,26 +43,6 @@ class CoffeeProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoffeeProduct
         fields = ['name', 'description', 'price', 'image', 'category', 'id']
-
-
-class ServiceRoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ServiceRole
-        fields = ['name', 'id', 'procedures', 'is_admin']
-
-
-class SpaUserSerializer(serializers.ModelSerializer):
-    roles = ServiceRoleSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = SpaUser
-        fields = ['username', 'email', 'password', 'id', 'roles']
-
-
-class ServiceCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Procedure
-        fields = ['id', 'name', 'description', 'price', 'duration', 'composition', 'image']
 
 
 class CompositionSerializer(serializers.ModelSerializer):
@@ -108,9 +88,27 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 
 class ProcedureSerializer(serializers.ModelSerializer):
+    category = serializers.PrimaryKeyRelatedField(queryset=ProcedureCategory.objects.all())
+
     class Meta:
         model = Procedure
         fields = ['id', 'name', 'description', 'price', 'duration', 'composition', 'image', 'category']
+
+
+class ServiceRoleSerializer(serializers.ModelSerializer):
+    procedures = ProcedureSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ServiceRole
+        fields = ['name', 'id', 'procedures', 'is_admin', 'employees']
+
+
+class SpaUserSerializer(serializers.ModelSerializer):
+    roles = ServiceRoleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = SpaUser
+        fields = ['username', 'email', 'password', 'id', 'roles']
 
 
 class SalonSerializer(serializers.ModelSerializer):
@@ -152,13 +150,15 @@ class EmployeeReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ['id', 'name', 'role', 'photo']
+        fields = ['id', 'name', 'role', 'photo', 'rating']
 
 
 class RecordSerializer(serializers.ModelSerializer):
+    start_time = serializers.TimeField(required=True)
+
     class Meta:
         model = Record
-        fields = ['id', 'schedule', 'start_time', 'procedure']
+        fields = ['id', 'schedule', 'start_time', 'procedure', 'start_time']
 
     def validate(self, data):
         if data['start_time'].strftime('%H:%M') not in SlotsValidator(data['schedule'], data['procedure']).ranges:
@@ -185,4 +185,4 @@ class GalleryImageSerializer(serializers.ModelSerializer):
 class ProcedureCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcedureCategory
-        fields = ['id', 'name', 'description', 'image']
+        fields = ['id', 'name', 'description', 'image', 'roles']

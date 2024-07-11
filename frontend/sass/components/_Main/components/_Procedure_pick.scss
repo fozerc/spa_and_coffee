@@ -1,0 +1,28 @@
+.procedures_pick_section{
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  .procedures_pick_container{
+    background-color: #FFFFFF;
+    flex-direction: column;
+    margin-top: 10vh;
+    height: 50vh;
+    width: 50vh;
+    display: flex;
+    border-radius: 2vh;
+    padding: 2vh;
+    justify-content: space-between;
+    .select_specialist_button{
+      margin-top: 4vh;
+      background-color: #AFB5A1;
+      border-radius: 1vh;
+      height: 5vh;
+      border: 0.3vh solid black;
+    }
+    .procedures_flex_container{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2.7vh;
+    }
+  }
+}

@@ -36,6 +36,7 @@ export const Footer = ({API, State}) => {
                         <li>Therapy Cup Spa</li>
                     </ul>
                 </section>
+            </section>
                 `
     }
 

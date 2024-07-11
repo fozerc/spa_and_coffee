@@ -3,7 +3,7 @@ from datetime import timedelta, datetime
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -77,6 +77,14 @@ class CompositionModelViewSet(ModelViewSet):
     queryset = Composition.objects.all()
     serializer_class = CompositionSerializer
     permission_classes = [IsAdminOrReadOnly]
+
+
+class MassageProceduresView(ListAPIView):
+    serializer_class = ProcedureSerializer
+
+    def get_queryset(self):
+        massage_category = ProcedureCategory.objects.get(name='Mасажі')
+        return Procedure.objects.filter(category_id=massage_category.id)
 
 
 class SalonModelViewSet(ModelViewSet):

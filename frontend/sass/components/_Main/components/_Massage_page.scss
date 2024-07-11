@@ -1,0 +1,94 @@
+.massage_logo_section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 7vh;
+  padding-bottom: 5vh;
+}
+header, main, footer{
+  background-color: #959A8A;
+}
+.massage_navigation_container {
+  border-top: 0.4vh black solid;
+  border-bottom: 0.4vh black solid;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+
+  li {
+    margin-left: 5%;
+    font-size: 3.3vh;
+  }
+}
+
+.massages_section {
+  .massages_container {
+    margin: 3vh;
+    display: grid;
+    justify-content: center;
+    gap: 4vh;
+    grid-template-columns: repeat(2, minmax(20vh, 74vh));
+    grid-template-rows: repeat(2, 1fr);
+
+    .massage_card {
+      background-color: #FFFFFF;
+      border-radius: 2vh;
+      padding: 2vh;
+
+      .massage_desc {
+        list-style: none;
+        padding: 1.2vh;
+        margin: 0;
+
+        li:nth-child(2) {
+          margin-top: 2vh;
+          margin-bottom: 2vh;
+          font-size: 3.4vh;
+          font-weight: 600;
+        }
+
+        li:nth-child(3) {
+          font-size: 2.4vh;
+        }
+
+        li {
+          img {
+            border-radius: 2vh;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.massage_duration_and_price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5vh;
+  list-style: none;
+  margin-top: 3vh;
+
+  li {
+    font-size: 2vh;
+  }
+}
+
+.make_an_appointment_button{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20vh;
+  align-items: center;
+  button{
+    width: 24vh;
+    height: 5vh;
+    background-color: #FFFFFF;
+    border: 0.3vh solid black;
+    font-size: 1.7vh;
+  }
+}

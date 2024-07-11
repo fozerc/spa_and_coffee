@@ -25,6 +25,7 @@ body{
     ul {
       margin-left: 15.5%;
       list-style: none;
+      font-size: 2vh;
     }
   }
 }
@@ -89,6 +90,9 @@ body{
 
     li {
       margin-left: 3vh;
+      img{
+        width: 3vh;
+      }
     }
   }
 }

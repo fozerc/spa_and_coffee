@@ -62,5 +62,9 @@ export const initialState = {
   logout: {
     data: null,
     error: null,
+  },
+  massages: {
+    data: null,
+    error: null,
   }
 };
