@@ -3,7 +3,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 from api.resourses import RegisterCreateApiView, CoffeeProductModelViewSet, CoffeeCategoryModelViewSet, \
     EmployeeModelViewSet, RoleModelViewSet, ProcedureModelViewSet, CompositionModelViewSet, SalonModelViewSet, \
     ReviewModelViewSet, ScheduleModelViewSet, RecordModelViewSet, GalleryCategoryModelViewSet, GalleryImageModelViewSet, \
-    ProcedureCategoryModelViewSet, LogoutApiView, MassageProceduresView
+    ProcedureCategoryModelViewSet, LogoutApiView, MassageProceduresView, PilingsProceduresView, \
+    SteamingAndScaldingProceduresView, CeremoniesProceduresView
 from rest_framework import routers
 
 from api.serializers import GalleryImageSerializer
@@ -28,8 +29,8 @@ urlpatterns = [
     path('register/', RegisterCreateApiView.as_view(), name='register'),
     path('logout/', LogoutApiView.as_view(), name='logout'),
     path('procedures/massages/', MassageProceduresView.as_view(), name='procedures-massages'),
-    # path('procedures/pilings/', MassageProceduresView.as_view(), name='procedures-massages'),
-    # path('procedures/ceremonies/', MassageProceduresView.as_view(), name='procedures-massages'),
-    # path('procedures/steaming/', MassageProceduresView.as_view(), name='procedures-massages'),
+    path('procedures/pilings/', PilingsProceduresView.as_view(), name='procedures-pilings'),
+    path('procedures/steaming/', SteamingAndScaldingProceduresView.as_view(), name='procedures-steaming-and-scalding'),
+    path('procedures/ceremonies/', CeremoniesProceduresView.as_view(), name='procedures-ceremonies'),
     path('', include(router.urls)),
 ]

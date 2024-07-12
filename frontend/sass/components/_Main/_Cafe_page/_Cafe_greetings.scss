@@ -1,0 +1,67 @@
+.logo_container {
+  margin-top: 3vh;
+  display: flex;
+  justify-content: center;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style: none;
+  }
+}
+
+.navigation {
+  .nav_links {
+    font-size: 3vh;
+  }
+}
+
+.greetings_image_section {
+  height: 50vh;
+  background-image: url("../../../../assets/images/coffee_photo.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.greetings_section {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+  .greetings_container {
+    margin-top: 8vh;
+    ul{
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      list-style: none;
+      width: 130vh;
+      li:nth-child(1) {
+        font-size: 6vh;
+      }
+      li:nth-child(2) {
+        height: 28vh;
+        background-color: #FFFFFF;
+        margin-top: 10vh;
+        font-size: 3.3vh;
+        padding-top: 9vh;
+        padding-left: 4vh;
+        padding-right: 4vh;
+        border-radius: 2vh;
+        position: relative;
+      }
+      li:nth-child(2)::after {
+        position: absolute;
+        content: url("../../../../assets/icons/coffee_beans.svg");
+      }
+      li:nth-child(2)::before {
+        position: absolute;
+        transform: rotate(180deg);
+        top: 20vh;
+        left: -15vh;
+        content: url("../../../../assets/icons/coffee_beans.svg");
+      }
+    }
+  }
+}

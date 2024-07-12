@@ -66,5 +66,17 @@ export const initialState = {
   massages: {
     data: null,
     error: null,
+  },
+  pilings: {
+    data: null,
+    error: null,
+  },
+  steamings: {
+    data: null,
+    error: null,
+  },
+  ceremonies: {
+    data: null,
+    error: null,
   }
 };

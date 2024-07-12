@@ -30,10 +30,9 @@ export const Header = ({API, State}) => {
                 </section>
                     <ul class="navigation">
                         <li class="nav_links">Новини</li>
-                        <li class="nav_links">Акції та пропозиції</li>
                         <li class="nav_links">Блог</li>
                         <li class="nav_links">Фотогаллерея</li>
-                        <li class="nav_links">Кав'ярня</li>
+                        <li class="nav_links" id="coffeeButton">Кав'ярня</li>
                         <ul class="social_accounts">
                             <li><img src="../../assets/icons/inst.svg" alt=""></li>
                             <li><img src="../../assets/icons/facebook.svg" alt=""></li>
@@ -60,7 +59,7 @@ export const Header = ({API, State}) => {
             ${headerHtml}
         `;
             attachRegisterButtonOnClickHandler();
-
+            attachCoffeeButtonOnClickHandler();
             if (!isUserLoggedIn()) {
                 attachLogInButtonOnClickHandler();
             } else {
@@ -83,6 +82,57 @@ export const Header = ({API, State}) => {
         `
             return formContainer
         }
+
+        const renderCoffeePageGreetings = async () => {
+            return `
+            <section class="greetings_image_section">
+            </section>
+            <section class="greetings_section">
+                <div class="greetings_container">
+                    <ul>
+                        <li>Ласкаво просимо до нашої кав'ярні у спа-салоні!</li>
+                        <li> Поглибіть своє відчуття розкоші та задоволення, насолоджуйтеся ароматним кавовим напоєм у затишній атмосфері нашого закладу. У нашій кав'ярні ви зможете насолодитися широким вибором свіжообсмажених кавових зерен, найкращими чаєвими сортами та апетитними десертами - все це для вашого відпочинку та задоволення. Завітайте до нас сьогодні та даруйте собі миті насолоди та розслаблення!</li>
+                    </ul>
+                </div>
+            </section>
+        `
+        }
+
+        const renderCoffeePage = async (mainContent) => {
+            return `
+            <header>
+                <div class="logo_container">
+                    <ul>
+                        <li><img src="../../assets/icons/logo.svg" alt=""></li>
+                        <li>Theraphy Cup Spa</li>
+                    </ul>
+                </div>
+                <div class="navigation_container">
+                    <ul class="navigation">
+                        <li class="nav_links">Чаї</li>
+                        <li class="nav_links">Кава</li>
+                        <li class="nav_links">Десерти</li>
+                    </ul>
+                </div>
+            </header>
+            <main>
+                ${mainContent}
+            </main>
+            <footer>
+            </footer>
+        `
+        }
+
+        const attachCoffeeButtonOnClickHandler = () => {
+            document.querySelector("#coffeeButton").addEventListener('click', async (event) => {
+                const bodyElement = document.body;
+                bodyElement.innerHTML = ''
+                const main_content = await renderCoffeePage(await renderCoffeePageGreetings());
+                bodyElement.innerHTML = `
+            ${main_content}
+            `;
+            });
+        };
 
         const attachLogOutButtonOnClickHandler = () => {
             const logOutButton = document.querySelector('#LogOutButton');
@@ -143,7 +193,7 @@ export const Header = ({API, State}) => {
                     });
                     alert("Successfully registered!")
                     window.location.reload()
-                }catch (error){
+                } catch (error) {
                     alert("fill in all required fields.")
                 }
                 console.log(initialState);

@@ -79,12 +79,37 @@ class CompositionModelViewSet(ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
 
 
+class PilingsProceduresView(ListAPIView):
+    serializer_class = ProcedureSerializer
+
+    def get_queryset(self):
+        pilings_category = ProcedureCategory.objects.get(name='Пілінги')
+        return Procedure.objects.filter(category_id=pilings_category.id)
+
+
 class MassageProceduresView(ListAPIView):
     serializer_class = ProcedureSerializer
 
     def get_queryset(self):
         massage_category = ProcedureCategory.objects.get(name='Mасажі')
         return Procedure.objects.filter(category_id=massage_category.id)
+
+
+class CeremoniesProceduresView(ListAPIView):
+    serializer_class = ProcedureSerializer
+
+    def get_queryset(self):
+        ceremonies_category = ProcedureCategory.objects.get(name='Церемонії')
+        return Procedure.objects.filter(category_id=ceremonies_category.id)
+
+
+class SteamingAndScaldingProceduresView(ListAPIView):
+    serializer_class = ProcedureSerializer
+
+    def get_queryset(self):
+        steaming_and_scalding = ProcedureCategory.objects.get(name='Пропарки і обгортання')
+        return Procedure.objects.filter(category_id=steaming_and_scalding.id)
+
 
 
 class SalonModelViewSet(ModelViewSet):

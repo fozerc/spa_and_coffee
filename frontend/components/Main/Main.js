@@ -55,7 +55,7 @@ export const Main = ({API, State}) => {
 
     const renderEmployee = (employees) => {
         return employees.map(({name, role, photo}, index) => `
-                <div class="employees_type${index}">
+                <div class="employees_type">
                     <ul class="employee_card">
                         <li><img src="${photo}" alt=""></li>
                         <li>${name}</li>
@@ -210,7 +210,7 @@ export const Main = ({API, State}) => {
 
     const reviewForm = (employees) => {
         return `
-                <form id="reviewForm">
+                <form id="reviewForm" class="review_form">
                         <select name="employee" id="employeeSelect" class="employee_select">
                             ${employeesForForm(employees)}                  
                         </select>    
@@ -235,6 +235,14 @@ export const Main = ({API, State}) => {
         attachMassageButtonOnClickHandler3()
     };
 
+    const getPilings = async () => {
+        await request({
+            path: "pilings",
+            type: "get",
+            updateState
+        })
+    }
+
     const getMassages = async () => {
 
         await request({
@@ -244,8 +252,26 @@ export const Main = ({API, State}) => {
         });
     }
 
-    const renderMassages = (massages) => {
-        return massages.map(({name, description, price, duration, image}) => `
+    const getCeremonies = async () => {
+
+        await request({
+            path: "ceremonies",
+            type: "get",
+            updateState
+        })
+    }
+
+    const getSteamings = async () => {
+        await request({
+            path: "steamings",
+            type: "get",
+            updateState
+        })
+    }
+
+
+    const renderProceduresForPage = (procedures) => {
+        return procedures.map(({name, description, price, duration, image}) => `
                 <div class="massage_card">
                     <ul class="massage_desc">
                         <li><img src="${image}" alt=""></li>
@@ -260,9 +286,7 @@ export const Main = ({API, State}) => {
             `).join(' ')
     }
 
-    const renderMassagesPage = async () => {
-        await getMassages()
-        const massages = initialState.massages.data
+    const renderProceduresPage = async (procedures) => {
         return `
                 <header>
                     <section class="massage_logo_section">
@@ -283,7 +307,7 @@ export const Main = ({API, State}) => {
                 <main id="main-content">            
                     <section class="massages_section">
                         <div class="massages_container">
-                            ${renderMassages(massages)}
+                            ${renderProceduresForPage(procedures)}
                         </div>
                     </section>
                     <section class="make_an_appointment_button">
@@ -306,10 +330,9 @@ export const Main = ({API, State}) => {
                         <div class="Footer">
                         <ul class="navigation">
                                 <li class="nav_links">Новини</li>
-                                <li class="nav_links">Акції та пропозиції</li>
                                 <li class="nav_links">Блог</li>
                                 <li class="nav_links">Фотогаллерея</li>
-                                <li class="nav_links">Кав'ярня</li>
+                                <li class="nav_links" id="coffeeButton">Кав'ярня</li>
                                 <ul class="social_accounts">
                                     <li><img src="../../assets/icons/inst.svg" alt=""></li>
                                     <li><img src="../../assets/icons/facebook.svg" alt=""></li>
@@ -331,9 +354,11 @@ export const Main = ({API, State}) => {
         document.querySelector("#ProceduresButton3").addEventListener('click', async (event) => {
             const bodyElement = document.body
             bodyElement.innerHTML = ''
-            const massagePage = await renderMassagesPage()
+            await getPilings()
+            const pilings = initialState.pilings.data
+            const proceduresPage = await renderProceduresPage(pilings)
             bodyElement.innerHTML = `
-                    ${massagePage}
+                    ${proceduresPage}
                 `
             attachMakeAnAppointmentButtonHandler()
         });
@@ -343,9 +368,11 @@ export const Main = ({API, State}) => {
         document.querySelector("#ProceduresButton2").addEventListener('click', async (event) => {
             const bodyElement = document.body
             bodyElement.innerHTML = ''
-            const massagePage = await renderMassagesPage()
+            await getMassages()
+            const massages = initialState.massages.data
+            const proceduresPage = await renderProceduresPage(massages)
             bodyElement.innerHTML = `
-                    ${massagePage}
+                    ${proceduresPage}
                 `
             attachMakeAnAppointmentButtonHandler()
         });
@@ -355,9 +382,11 @@ export const Main = ({API, State}) => {
         document.querySelector("#ProceduresButton0").addEventListener('click', async (event) => {
             const bodyElement = document.body
             bodyElement.innerHTML = ''
-            const massagePage = await renderMassagesPage()
+            await getSteamings()
+            const steamings = initialState.steamings.data
+            const proceduresPage = await renderProceduresPage(steamings)
             bodyElement.innerHTML = `
-                    ${massagePage}
+                    ${proceduresPage}
                 `
             attachMakeAnAppointmentButtonHandler()
         });
@@ -367,9 +396,11 @@ export const Main = ({API, State}) => {
         document.querySelector("#ProceduresButton1").addEventListener('click', async (event) => {
             const bodyElement = document.body
             bodyElement.innerHTML = ''
-            const massagePage = await renderMassagesPage()
+            await getCeremonies()
+            const ceremonies = initialState.ceremonies.data
+            const proceduresPage = await renderProceduresPage(ceremonies)
             bodyElement.innerHTML = `
-                    ${massagePage}
+                    ${proceduresPage}
                 `
             attachMakeAnAppointmentButtonHandler()
         });
@@ -465,7 +496,7 @@ export const Main = ({API, State}) => {
 
         document.querySelectorAll('input[name="procedure"]').forEach((input) => {
             input.addEventListener('change', (event) => {
-                selectedProcedure = event.target.value; // сохраняем выбранную процедуру
+                selectedProcedure = event.target.value;
                 console.log(selectedProcedure, roles);
             });
         });
@@ -480,7 +511,7 @@ export const Main = ({API, State}) => {
     };
 
     const renderEmployeesByCategory = (procedureId, roles) => {
-        const allEmployees = initialState.employee.data; // Все работники из состояния
+        const allEmployees = initialState.employee.data;
         const employeeIds = roles.flatMap(role =>
             role.procedures.some(procedure => procedure.id == procedureId) ? role.employees : []
         );
@@ -503,8 +534,8 @@ export const Main = ({API, State}) => {
     `).join('');
 
         renderMainContent(`
-        <section class="employees_section">
-            <div class="employees_container">
+        <section class="choose_employees_section">
+            <div class="choose_employees_container">
                 ${employeeContent}
             </div>
         </section>
@@ -596,9 +627,7 @@ export const Main = ({API, State}) => {
             if (!scheduleId) {
                 throw new Error("Schedule ID is null");
             }
-            console.log("Requesting time slots for schedule ID: ", scheduleId);
             const response = await axios.get(`http://localhost:8000/api/schedule/${scheduleId}/free/?procedure=${procedureId}`)
-            console.log("Time slots response: ", response.data);
             const timeSlots = response.data.ranges;
 
             const timeSlotsContent = timeSlots.map(time => `

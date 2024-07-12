@@ -20,7 +20,6 @@ export const Footer = ({API, State}) => {
                 <div class="Footer">
                 <ul class="navigation">
                         <li class="nav_links">Новини</li>
-                        <li class="nav_links">Акції та пропозиції</li>
                         <li class="nav_links">Блог</li>
                         <li class="nav_links">Фотогаллерея</li>
                         <li class="nav_links">Кав'ярня</li>
