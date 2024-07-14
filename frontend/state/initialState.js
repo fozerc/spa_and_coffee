@@ -78,5 +78,37 @@ export const initialState = {
   ceremonies: {
     data: null,
     error: null,
+  },
+  teas: {
+    data: null,
+    error: null,
+  },
+  coffee: {
+    data: null,
+    error: null,
+  },
+  desserts: {
+    data: null,
+    error: null,
+  },
+  special: {
+    data: null,
+    error: null,
+  },
+  gallerySpa: {
+    data: null,
+    error: null,
+  },
+  galleryCafe: {
+    data: null,
+    error: null,
+  },
+  galleryProcess: {
+    data: null,
+    error: null,
+  },
+  galleryBathhouse: {
+    data: null,
+    error: null,
   }
 };

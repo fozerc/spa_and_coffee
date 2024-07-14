@@ -42,7 +42,7 @@ class CoffeeCategorySerializer(serializers.ModelSerializer):
 class CoffeeProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoffeeProduct
-        fields = ['name', 'description', 'price', 'image', 'category', 'id']
+        fields = ['name', 'description', 'price', 'image', 'category', 'id', 'compound']
 
 
 class CompositionSerializer(serializers.ModelSerializer):

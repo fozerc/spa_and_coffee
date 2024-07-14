@@ -111,6 +111,69 @@ class SteamingAndScaldingProceduresView(ListAPIView):
         return Procedure.objects.filter(category_id=steaming_and_scalding.id)
 
 
+class TeasCafeListView(ListAPIView):
+    serializer_class = CoffeeProductSerializer
+
+    def get_queryset(self):
+        teas = CoffeeCategory.objects.get(name='Чаї')
+        return CoffeeProduct.objects.filter(category_id=teas.id)
+
+
+class CoffeeCafeListView(ListAPIView):
+    serializer_class = CoffeeProductSerializer
+
+    def get_queryset(self):
+        coffee = CoffeeCategory.objects.get(name='Кава')
+        return CoffeeProduct.objects.filter(category_id=coffee.id)
+
+
+class DessertsCafeListView(ListAPIView):
+    serializer_class = CoffeeProductSerializer
+
+    def get_queryset(self):
+        desserts = CoffeeCategory.objects.get(name='Десерти')
+        return CoffeeProduct.objects.filter(category_id=desserts.id)
+
+
+class SpecialOffersCafeListView(ListAPIView):
+    serializer_class = CoffeeProductSerializer
+
+    def get_queryset(self):
+        special = CoffeeCategory.objects.get(name='Спеціальні пропозиції')
+        return CoffeeProduct.objects.filter(category_id=special.id)
+
+
+class GallerySpaListView(ListAPIView):
+    serializer_class = GalleryImageSerializer
+
+    def get_queryset(self):
+        spa = GalleryCategory.objects.get(name='Спа')
+        return GalleryImage.objects.filter(category_id=spa.id)
+
+
+class GalleryCafeListView(ListAPIView):
+    serializer_class = GalleryImageSerializer
+
+    def get_queryset(self):
+        cafe = GalleryCategory.objects.get(name='Кав’ярня')
+        return GalleryImage.objects.filter(category_id=cafe.id)
+
+
+class GalleryProcessListView(ListAPIView):
+    serializer_class = GalleryImageSerializer
+
+    def get_queryset(self):
+        process = GalleryCategory.objects.get(name='Процес')
+        return GalleryImage.objects.filter(category_id=process.id)
+
+
+class GalleryBathhouseListView(ListAPIView):
+    serializer_class = GalleryImageSerializer
+
+    def get_queryset(self):
+        bathhouse = GalleryCategory.objects.get(name='Баня')
+        return GalleryImage.objects.filter(category_id=bathhouse.id)
+
 
 class SalonModelViewSet(ModelViewSet):
     queryset = Salon.objects.all()

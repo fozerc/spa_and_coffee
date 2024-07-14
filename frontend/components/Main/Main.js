@@ -54,7 +54,7 @@ export const Main = ({API, State}) => {
     };
 
     const renderEmployee = (employees) => {
-        return employees.map(({name, role, photo}, index) => `
+        return employees.map(({name, role, photo}) => `
                 <div class="employees_type">
                     <ul class="employee_card">
                         <li><img src="${photo}" alt=""></li>

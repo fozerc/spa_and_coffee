@@ -60,8 +60,6 @@ class Employee(models.Model):
     def __str__(self):
         return f"Name: {self.name}, Salon: {self.salon}"
 
-
-
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         for role in self.role.all():
@@ -143,6 +141,7 @@ class CoffeeProduct(models.Model):
     description = models.TextField(max_length=1000)
     image = models.ImageField(blank=True, null=True)
     category = models.ForeignKey(CoffeeCategory, on_delete=models.CASCADE)
+    compound = models.CharField(max_length=300, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -161,6 +160,9 @@ class Review(models.Model):
 
 class GalleryCategory(models.Model):
     name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
 
 class GalleryImage(models.Model):

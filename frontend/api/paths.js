@@ -19,5 +19,13 @@ export const paths = {
   pilings: "procedures/pilings/",
   steamings: "procedures/steaming/",
   ceremonies: "procedures/ceremonies/",
+  teas: "coffee-products/tea/",
+  coffee: "coffee-products/coffee",
+  desserts: "coffee-products/desserts",
+  special: "coffee-products/special/",
+  gallerySpa: "gallery/spa/",
+  galleryCafe: "gallery/cafe/",
+  galleryProcess: "gallery/process/",
+  galleryBathhouse: "gallery/bathhouse/",
 };
 export const apiUrl = "'http://localhost:8000/api/'"

@@ -1,5 +1,5 @@
 .logo_container {
-  margin-top: 3vh;
+  padding-top: 3vh;
   display: flex;
   justify-content: center;
 
@@ -13,7 +13,7 @@
 
 .navigation {
   .nav_links {
-    font-size: 3vh;
+    font-size: 5vh;
   }
 }
 
@@ -25,43 +25,55 @@
 }
 
 .greetings_section {
+  background-image: url("../../../../assets/images/cafe_background.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
   justify-content: center;
   align-items: center;
   display: flex;
+  flex-direction: column;
+  padding-top: 8vh;
+  padding-bottom: 30vh;
+
+
+  .greetings_heading {
+    h2 {
+      font-weight: 100;
+      font-size: 6vh;
+    }
+  }
 
   .greetings_container {
     margin-top: 8vh;
-    ul{
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      list-style: none;
-      width: 130vh;
-      li:nth-child(1) {
-        font-size: 6vh;
-      }
-      li:nth-child(2) {
-        height: 28vh;
-        background-color: #FFFFFF;
-        margin-top: 10vh;
-        font-size: 3.3vh;
-        padding-top: 9vh;
-        padding-left: 4vh;
-        padding-right: 4vh;
-        border-radius: 2vh;
-        position: relative;
-      }
-      li:nth-child(2)::after {
-        position: absolute;
-        content: url("../../../../assets/icons/coffee_beans.svg");
-      }
-      li:nth-child(2)::before {
-        position: absolute;
-        transform: rotate(180deg);
-        top: 20vh;
-        left: -15vh;
-        content: url("../../../../assets/icons/coffee_beans.svg");
-      }
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    list-style: none;
+    width: 60vw;
+    background-color: #FFFFFF;
+    padding: 5vh;
+    border-radius: 2vh;
+    position: relative;
+
+    p {
+      font-size: 3.3vh;
+    }
+
+    p::after {
+      position: absolute;
+      right: -15%;
+      top: -15%;
+      content: url("../../../../assets/icons/coffee_beans.svg");
+    }
+
+    p::before {
+      position: absolute;
+      left: -15%;
+      bottom: -15%;
+      transform: rotate(180deg);
+      content: url("../../../../assets/icons/coffee_beans.svg");
     }
   }
 }
+
+
