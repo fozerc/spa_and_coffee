@@ -168,3 +168,23 @@ class GalleryCategory(models.Model):
 class GalleryImage(models.Model):
     image = models.ImageField(blank=True, null=True)
     category = models.ForeignKey(GalleryCategory, on_delete=models.CASCADE)
+
+
+class Blog(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField()
+    description = models.TextField(max_length=1000)
+    support_image = models.ImageField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class News(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField()
+    description = models.TextField(max_length=1000)
+    support_image = models.ImageField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name

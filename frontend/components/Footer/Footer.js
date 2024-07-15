@@ -19,10 +19,10 @@ export const Footer = ({API, State}) => {
                 </div>
                 <div class="Footer">
                 <ul class="navigation">
-                        <li class="nav_links">Новини</li>
-                        <li class="nav_links">Блог</li>
-                        <li class="nav_links">Фотогаллерея</li>
-                        <li class="nav_links">Кав'ярня</li>
+                        <li class="nav_links" id="blockNews">Новини</li>
+                        <li class="nav_links" id="blockBlog">Блог</li>
+                        <li class="nav_links" id="photoGalleryButton">Фотогаллерея</li>
+                        <li class="nav_links" id="coffeeShopButton">Кав'ярня</li>
                         <ul class="social_accounts">
                             <li><img src="../../assets/icons/inst.svg" alt=""></li>
                             <li><img src="../../assets/icons/facebook.svg" alt=""></li>
@@ -40,11 +40,12 @@ export const Footer = ({API, State}) => {
     }
 
     const renderFooter = async () => {
-        const [ FooterHtml ] = await Promise.all([renderPage()])
+        const [FooterHtml] = await Promise.all([renderPage()])
         footerElement.innerHTML = `
             ${FooterHtml}
-        `
+        `;
     }
+
 
     renderFooter()
 

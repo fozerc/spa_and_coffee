@@ -1,5 +1,4 @@
 from datetime import timedelta, datetime
-
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
@@ -14,9 +13,10 @@ from api.permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from api.serializers import RegisterSerializer, CoffeeProductSerializer, CoffeeCategorySerializer, SpaUserSerializer, \
     EmployeeSerializer, ServiceRoleSerializer, ProcedureSerializer, CompositionSerializer, SalonSerializer, \
     ReviewSerializer, ScheduleSerializer, FreeTimeCalculator, RecordSerializer, GalleryCategorySerializer, \
-    GalleryImageSerializer, ProcedureCategorySerializer, EmployeeReadSerializer, ReviewReadSerializer
+    GalleryImageSerializer, ProcedureCategorySerializer, EmployeeReadSerializer, ReviewReadSerializer, BlogSerializer, \
+    NewsSerializer
 from spa_app.models import SpaUser, CoffeeProduct, CoffeeCategory, Employee, ServiceRole, Procedure, Composition, Salon, \
-    Review, Schedule, Record, GalleryCategory, GalleryImage, ProcedureCategory
+    Review, Schedule, Record, GalleryCategory, GalleryImage, ProcedureCategory, Blog, News
 from spa_app.utils import SlotsValidator
 
 
@@ -243,4 +243,16 @@ class GalleryImageModelViewSet(ModelViewSet):
 class ProcedureCategoryModelViewSet(ModelViewSet):
     queryset = ProcedureCategory.objects.all()
     serializer_class = ProcedureCategorySerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+
+class BlogModelViewSet(ModelViewSet):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+
+class NewsModelViewSet(ModelViewSet):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
     permission_classes = [IsAdminOrReadOnly]

@@ -110,5 +110,13 @@ export const initialState = {
   galleryBathhouse: {
     data: null,
     error: null,
+  },
+  news: {
+    data: null,
+    error: null
+  },
+  blog: {
+    data: null,
+    error: null,
   }
 };

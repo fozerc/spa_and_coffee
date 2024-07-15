@@ -67,6 +67,22 @@ export const Header = ({API, State}) => {
             })
         }
 
+        const getNews = async () => {
+            await request({
+                type: 'get',
+                path: 'news',
+                updateState
+            })
+        }
+
+        const getBlog = async () => {
+            await request({
+                type: 'get',
+                path: 'blog',
+                updateState
+            })
+        }
+
         const isUserLoggedIn = () => {
             return !!localStorage.getItem('authtoken')
         }
@@ -79,6 +95,7 @@ export const Header = ({API, State}) => {
                         <li><img src="../../assets/icons/logo.svg" alt=""></li>
                         <li>Therapy Cup Spa</li>
                     </ul>
+<!--                    <i class="fas fa-user"></i>-->
                     ${!isUserLoggedIn() ? `
                         <ul class="login_button">
                             <li>
@@ -93,8 +110,8 @@ export const Header = ({API, State}) => {
                         `}
                 </section>
                     <ul class="navigation">
-                        <li class="nav_links">Новини</li>
-                        <li class="nav_links">Блог</li>
+                        <li class="nav_links" id="blockNews">Новини</li>
+                        <li class="nav_links" id="blockBlog">Блог</li>
                         <li class="nav_links" id="photoGalleryButton">Фотогаллерея</li>
                         <li class="nav_links" id="coffeeShopButton">Кав'ярня</li>
                         <ul class="social_accounts">
@@ -125,11 +142,45 @@ export const Header = ({API, State}) => {
             attachRegisterButtonOnClickHandler();
             attachCoffeeShopButtonOnClickHandler();
             attachToGalleryButtonOnClickHandler();
+            attachBlockNewsButtonOnClickHandler();
+            attachBlockBlogButtonOnClickHandler();
             if (!isUserLoggedIn()) {
                 attachLogInButtonOnClickHandler();
             } else {
                 attachLogOutButtonOnClickHandler();
             }
+        }
+
+        const attachBlockNewsButtonOnClickHandler = () => {
+            document.querySelector("#blockNews").addEventListener('click', async (event) => {
+                await getNews()
+                const bodyElement = document.body
+                bodyElement.innerHTML = ``
+                const news = initialState.news.data
+                const mainContent = await renderBlockRenderPage(renderBlogAndNews(news))
+                bodyElement.innerHTML = `
+                    ${mainContent}
+                `;
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
+                attachCoffeeShopButtonOnClickHandler();
+                attachToGalleryButtonOnClickHandler();
+            })
+        }
+
+        const attachBlockBlogButtonOnClickHandler = () => {
+            document.querySelector("#blockBlog").addEventListener('click', async (event) => {
+                await getBlog()
+                const bodyElement = document.body
+                bodyElement.innerHTML = ``
+                const blog = initialState.blog.data
+                const mainContent = await renderBlockRenderPage(renderBlogAndNews(blog))
+                bodyElement.innerHTML = `
+                    ${mainContent}
+                `;
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
+            })
         }
 
         const logInForm = () => {
@@ -147,6 +198,88 @@ export const Header = ({API, State}) => {
         `
             return formContainer
         }
+
+        const renderBlogAndNews = (blocks) => {
+            const block_for_render = blocks.map((block) => `
+            <div class="block_heading">
+                <p>${block.name}</p>
+            </div>
+            <div class="block_card">                
+                <div class="block_name_img">
+                    <img src="${block.image}" alt="">
+                </div>
+                <div class="block_desc">
+                    <p>${block.description}</p>
+                    <img src="${block.support_image}" alt="">
+                </div>
+            </div>
+                
+            `).join(' ')
+
+            return `
+                <section class="block_section">
+                    <div class="block_container">
+                        ${block_for_render}
+                    </div>
+                </section>
+            `
+        }
+
+        const renderBlockRenderPage = async (mainContent) => {
+            return `
+            <header class="gallery_header">
+                <div class="logo_container">
+                    <ul>
+                        <li><img src="../../assets/icons/logo.svg" alt=""></li>
+                        <li>Theraphy Cup Spa</li>
+                    </ul>
+                </div>
+                <div class="navigation_container">
+                    <ul class="navigation">
+                        <li class="nav_links" id="blockBlog">Блог</li>
+                        <li class="nav_links" id="blockNews">Новини</li>
+                    </ul>
+                </div>
+            </header>
+            <main class="gallery_main">
+                ${mainContent}
+            </main>
+            <footer class="gallery_footer">
+                <section class="footer_gallery_section">
+                <h1 class="heading">Контакти</h1>
+                <div class="line"></div>
+                <div class="contacts_container">
+                    <ul>
+                        <li>Theraphy Cup Spa, s.r.o.</li>
+                        <li>Recepce +420776652345</li>
+                        <li>IČ: 05682606</li>
+                        <li>DIČ: CZ05782303</li>
+                        <li>Fakturační adresa: Na Lysině 678/25, 147 00, Praha 4, Česká republika</li>
+                    </ul>
+                </div>
+                <div class="Footer">
+                <ul class="navigation">
+                        <li class="nav_links" id="blockNews">Новини</li>
+                        <li class="nav_links" id="blockBlog">Блог</li>
+                        <li class="nav_links" id="photoGalleryButton">Фотогаллерея</li>
+                        <li class="nav_links" id="coffeeShopButton">Кав'ярня</li>
+                        <ul class="social_accounts">
+                            <li><img src="../../assets/icons/inst.svg" alt=""></li>
+                            <li><img src="../../assets/icons/facebook.svg" alt=""></li>
+                            <li><img src="../../assets/icons/wats.svg" alt=""></li>
+                        </ul>
+                    </ul>
+                <section class="logo_and_btn_container" >        
+                    <ul class="logo">
+                        <li><img src="../../assets/icons/logo.svg" alt=""></li>
+                        <li>Therapy Cup Spa</li>
+                    </ul>
+                </section>
+            </section>
+            </footer>
+        `
+        }
+
 
         const renderGalleryImages = (images) => {
             const images_for_render = images.map((image) => `
@@ -216,8 +349,8 @@ export const Header = ({API, State}) => {
                 </div>
                 <div class="Footer">
                 <ul class="navigation">
-                        <li class="nav_links">Новини</li>
-                        <li class="nav_links">Блог</li>
+                        <li class="nav_links" id="blockNews">Новини</li>
+                        <li class="nav_links" id="blockBlog">Блог</li>
                         <li class="nav_links" id="photoGalleryButton">Фотогаллерея</li>
                         <li class="nav_links" id="coffeeShopButton">Кав'ярня</li>
                         <ul class="social_accounts">
@@ -250,8 +383,9 @@ export const Header = ({API, State}) => {
                 attachSpaOnClickButtonHandler();
                 attachCafeGalleryOnClickButtonHandler();
                 attachProcessGalleryClickButtonHandler();
-                attachProcessGalleryClickButtonHandler();
                 attachBathhouseClickButtonHandler();
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
             });
         };
 
@@ -270,8 +404,9 @@ export const Header = ({API, State}) => {
                 attachSpaOnClickButtonHandler();
                 attachCafeGalleryOnClickButtonHandler();
                 attachProcessGalleryClickButtonHandler();
-                attachProcessGalleryClickButtonHandler();
                 attachBathhouseClickButtonHandler();
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
             })
         }
 
@@ -290,8 +425,9 @@ export const Header = ({API, State}) => {
                 attachSpaOnClickButtonHandler();
                 attachCafeGalleryOnClickButtonHandler();
                 attachProcessGalleryClickButtonHandler();
-                attachProcessGalleryClickButtonHandler();
                 attachBathhouseClickButtonHandler();
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
             })
         }
 
@@ -310,8 +446,9 @@ export const Header = ({API, State}) => {
                 attachSpaOnClickButtonHandler();
                 attachCafeGalleryOnClickButtonHandler();
                 attachProcessGalleryClickButtonHandler();
-                attachProcessGalleryClickButtonHandler();
                 attachBathhouseClickButtonHandler();
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
             })
         }
 
@@ -330,8 +467,9 @@ export const Header = ({API, State}) => {
                 attachSpaOnClickButtonHandler();
                 attachCafeGalleryOnClickButtonHandler();
                 attachProcessGalleryClickButtonHandler();
-                attachProcessGalleryClickButtonHandler();
                 attachBathhouseClickButtonHandler();
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
             })
         }
 
@@ -386,8 +524,8 @@ export const Header = ({API, State}) => {
                 </div>
                 <div class="Footer">
                 <ul class="navigation">
-                        <li class="nav_links">Новини</li>
-                        <li class="nav_links">Блог</li>
+                        <li class="nav_links" id="blockNews">Новини</li>
+                        <li class="nav_links" id="blockBlog">Блог</li>
                         <li class="nav_links" id="photoGalleryButton">Фотогаллерея</li>
                         <li class="nav_links" id="coffeeShopButton">Кав'ярня</li>
                         <ul class="social_accounts">
@@ -450,6 +588,8 @@ export const Header = ({API, State}) => {
                 attachSpecialOffersOnClickButtonHandler()
                 attachCoffeeShopButtonOnClickHandler()
                 attachToGalleryButtonOnClickHandler();
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
             });
         };
 
@@ -471,6 +611,8 @@ export const Header = ({API, State}) => {
                 attachCoffeeOnClickButtonHandler()
                 attachCoffeeShopButtonOnClickHandler()
                 attachToGalleryButtonOnClickHandler();
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
             })
         }
 
@@ -492,6 +634,8 @@ export const Header = ({API, State}) => {
                 attachCoffeeOnClickButtonHandler()
                 attachCoffeeShopButtonOnClickHandler()
                 attachToGalleryButtonOnClickHandler();
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
             })
         }
 
@@ -512,6 +656,8 @@ export const Header = ({API, State}) => {
                 attachCoffeeOnClickButtonHandler()
                 attachCoffeeShopButtonOnClickHandler()
                 attachToGalleryButtonOnClickHandler();
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
             })
         }
 
@@ -532,6 +678,8 @@ export const Header = ({API, State}) => {
                 attachCoffeeOnClickButtonHandler()
                 attachCoffeeShopButtonOnClickHandler()
                 attachToGalleryButtonOnClickHandler();
+                attachBlockNewsButtonOnClickHandler();
+                attachBlockBlogButtonOnClickHandler();
             })
         }
 

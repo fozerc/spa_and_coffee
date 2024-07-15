@@ -27,5 +27,7 @@ export const paths = {
   galleryCafe: "gallery/cafe/",
   galleryProcess: "gallery/process/",
   galleryBathhouse: "gallery/bathhouse/",
+  news: "news/",
+  blog: "blog/",
 };
 export const apiUrl = "'http://localhost:8000/api/'"

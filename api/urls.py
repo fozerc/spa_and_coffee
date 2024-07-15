@@ -6,7 +6,7 @@ from api.resourses import RegisterCreateApiView, CoffeeProductModelViewSet, Coff
     ProcedureCategoryModelViewSet, LogoutApiView, MassageProceduresView, PilingsProceduresView, \
     SteamingAndScaldingProceduresView, CeremoniesProceduresView, TeasCafeListView, CoffeeCafeListView, \
     DessertsCafeListView, SpecialOffersCafeListView, GallerySpaListView, GalleryCafeListView, GalleryProcessListView, \
-    GalleryBathhouseListView
+    GalleryBathhouseListView, BlogModelViewSet, NewsModelViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -23,6 +23,8 @@ router.register(r'record', RecordModelViewSet, basename='record')
 router.register(r'gallery-category', GalleryCategoryModelViewSet, basename='gallery-category')
 router.register(r'gallery-image', GalleryImageModelViewSet, basename='gallery-image')
 router.register(r'procedure-category', ProcedureCategoryModelViewSet, basename='procedure-category')
+router.register(r'blog', BlogModelViewSet, basename='blog')
+router.register(r'news', NewsModelViewSet, basename='news')
 
 urlpatterns = [
     path('auth/', obtain_auth_token, name='auth_token'),
