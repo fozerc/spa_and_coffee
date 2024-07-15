@@ -29,7 +29,7 @@ header, main, footer{
     margin: 3vh;
     display: grid;
     justify-content: center;
-    gap: 4vh;
+    gap: 2vh;
     grid-template-columns: repeat(2, minmax(20vh, 74vh));
     grid-template-rows: repeat(2, 1fr);
 
@@ -37,6 +37,8 @@ header, main, footer{
       background-color: #FFFFFF;
       border-radius: 2vh;
       padding: 2vh;
+      display: flex;
+      flex-direction: column;
 
       .massage_desc {
         list-style: none;
@@ -78,13 +80,14 @@ header, main, footer{
   }
 }
 
-.make_an_appointment_button{
+.make_an_appointment_button {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 20vh;
   align-items: center;
-  button{
+
+  button {
     width: 24vh;
     height: 5vh;
     background-color: #FFFFFF;
@@ -92,3 +95,28 @@ header, main, footer{
     font-size: 1.7vh;
   }
 }
+
+@media (max-width: 768px) {
+  .massage_navigation_container li {
+    margin: 1%;
+    font-size: 2vh;
+  }
+
+  .massages_section .massages_container {
+    gap: 1.5vh;
+    grid-template-columns: repeat(1, minmax(100px, 1fr));
+    grid-template-rows: repeat(1, 1fr);
+  }
+
+  .make_an_appointment_button {
+    margin-top: 10vh;
+
+    button {
+      width: 18vh;
+      height: 4vh;
+      font-size: 1.4vh;
+    }
+  }
+}
+
+

@@ -44,9 +44,9 @@ export const Main = ({API, State}) => {
                         <li>${description}</li>
                     </ul>
                     <ul class="category_buttons">
-                        <li>Дізнатися більше</li>
+                        <li id="ProceduresButton${index}" >Дізнатися більше</li>
                         <li>
-                            <button id="ProceduresButton${index}">Записатись</button>
+                            <button id="makeAnAppointmentButton">Записатись</button>
                         </li>
                     </ul>
                 </div>
@@ -228,6 +228,7 @@ export const Main = ({API, State}) => {
         mainElement.innerHTML = `
                 ${anotherHtml}
             `;
+        attachMakeAnAppointmentButtonHandler()
         attachReviewFormSubmitHandler();
         attachMassageButtonOnClickHandler0()
         attachMassageButtonOnClickHandler2()
@@ -279,7 +280,7 @@ export const Main = ({API, State}) => {
                         <li>${description}</li>
                     </ul>
                     <ul class="massage_duration_and_price">
-                        <li>Тривалість ${duration / 60} хв</li>
+                        ${duration > 0 ? `<li>Тривалість ${duration / 60} хв</li>` : ''}
                         <li>${price} грн</li>
                     </ul>
                 </div>
@@ -297,10 +298,10 @@ export const Main = ({API, State}) => {
                     </section>
                     <section class="navigation_section">
                         <ul class="massage_navigation_container">
-                            <li>Массажі</li>
-                            <li>Пілінги </li>
-                            <li>Пропарки і обгортання</li>
-                            <li>Церемонії</li>
+                            <li id="ProceduresButton2">Массажі</li>
+                            <li id="ProceduresButton3">Пілінги </li>
+                            <li id="ProceduresButton0">Пропарки і обгортання</li>
+                            <li id="ProceduresButton1">Церемонії</li>
                         </ul>
                     </section>
                 </header> 
@@ -329,10 +330,10 @@ export const Main = ({API, State}) => {
                         </div>
                         <div class="Footer">
                         <ul class="navigation">
-                                <li class="nav_links">Новини</li>
-                                <li class="nav_links">Блог</li>
-                                <li class="nav_links">Фотогаллерея</li>
-                                <li class="nav_links" id="coffeeButton">Кав'ярня</li>
+                            <li class="nav_links" id="blockNews">Новини</li>
+                            <li class="nav_links" id="blockBlog">Блог</li>
+                            <li class="nav_links" id="photoGalleryButton">Фотогаллерея</li>
+                            <li class="nav_links" id="coffeeShopButton">Кав'ярня</li>
                                 <ul class="social_accounts">
                                     <li><img src="../../assets/icons/inst.svg" alt=""></li>
                                     <li><img src="../../assets/icons/facebook.svg" alt=""></li>
@@ -361,6 +362,10 @@ export const Main = ({API, State}) => {
                     ${proceduresPage}
                 `
             attachMakeAnAppointmentButtonHandler()
+            attachMassageButtonOnClickHandler0()
+            attachMassageButtonOnClickHandler2()
+            attachMassageButtonOnClickHandler1()
+            attachMassageButtonOnClickHandler3()
         });
     }
 
@@ -375,6 +380,10 @@ export const Main = ({API, State}) => {
                     ${proceduresPage}
                 `
             attachMakeAnAppointmentButtonHandler()
+            attachMassageButtonOnClickHandler0()
+            attachMassageButtonOnClickHandler2()
+            attachMassageButtonOnClickHandler1()
+            attachMassageButtonOnClickHandler3()
         });
     }
 
@@ -389,6 +398,10 @@ export const Main = ({API, State}) => {
                     ${proceduresPage}
                 `
             attachMakeAnAppointmentButtonHandler()
+            attachMassageButtonOnClickHandler0()
+            attachMassageButtonOnClickHandler2()
+            attachMassageButtonOnClickHandler1()
+            attachMassageButtonOnClickHandler3()
         });
     }
 
@@ -403,6 +416,10 @@ export const Main = ({API, State}) => {
                     ${proceduresPage}
                 `
             attachMakeAnAppointmentButtonHandler()
+            attachMassageButtonOnClickHandler0()
+            attachMassageButtonOnClickHandler2()
+            attachMassageButtonOnClickHandler1()
+            attachMassageButtonOnClickHandler3()
         });
     }
 

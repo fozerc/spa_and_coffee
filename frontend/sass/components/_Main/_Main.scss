@@ -425,6 +425,10 @@ main {
   }
 }
 
+.employees_section{
+  justify-content: center;
+  display: flex;
+}
 
 @media(max-width: 900px) {
   .categories {
@@ -504,6 +508,9 @@ main {
       background-color: #959A8A;
       padding: 2vh;
       border-radius: 2vh;
+      ul li img{
+        width: 100%;
+      }
     }
   }
 }
@@ -526,6 +533,7 @@ main {
 .why_us_container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   margin-top: 5vh;
   padding: 0 10% 5vh;
 
@@ -694,6 +702,10 @@ main {
 #cafeGalleryButton,
 #processGalleryButton,
 #bathhouseButton,
-#coffeeShopButton {
+#coffeeShopButton,
+#ProceduresButton2,
+#ProceduresButton3,
+#ProceduresButton1,
+#ProceduresButton0 {
   cursor: pointer;
 }

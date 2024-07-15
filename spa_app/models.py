@@ -117,7 +117,7 @@ class Procedure(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     price = models.DecimalField(max_digits=10, decimal_places=0)
-    duration = models.DurationField(choices=PROCEDURE_TYPE)
+    duration = models.DurationField(choices=PROCEDURE_TYPE,blank=True, null=True)
     composition = models.ForeignKey(Composition, on_delete=models.CASCADE, related_name='procedures', blank=True,
                                     null=True)
     image = models.ImageField(blank=True, null=True)
